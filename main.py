@@ -1,40 +1,32 @@
-from random import randint
+import pygame
 
-class Map():
+class Window():
     def __init__(self):
-        self.map = 
-        [
-        [[],[],[],[],[]],
-        [[],[],[],[],[]],
-        [[],[],[],[],[]],
-        [[],[],[],[],[]],
-                        ]
-
-
-class Piece():
-    def __init__(self, HP, streght, speed, range):
-        
-        self.HP = HP
-        self.DF = None # ajout de la défence ?
-        self.strenght = strenght
-        self.speed = speed
-        self.range = range
-        
-    def Move(self):
-        pass
-        
-    def Damage(self, strenght):
-        self.HP -= randint(1,2)*strenght
+        self.width = 1280
+        self.height = 720
+        self.isRunning = True
+        self.clock = pygame.time.Clock()
+        self.clockTime = 60
+        self.bg = None
+        self.screen = pygame.display.set_mode((self.width,self.height))
+    
+    def CreatGameWindow(self):
+        pygame.display.set_caption("Messy Chess")  
         
     
-
-
-class Sponge(Piece):
-    def __init__(self, HP, streght, speed, range):
-        super().__init__(, HP, streght, speed, range)
+    def GetGameStat(self):
+        return self.isRunning
     
-    def Move(self)
-        super().Move()
+    def GetClockTime(self):
+        return self.clockTime
     
-    def Damage(self, strenght):
-        super().Damage(strenght)
+    def GetBackground(self):
+        return self.bg
+
+main = Window()
+main.CreatGameWindow()
+pygame.init()
+
+while main.GetGameStat():
+    clock.tick(GetClockTime)
+        
