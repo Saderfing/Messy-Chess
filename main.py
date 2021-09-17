@@ -13,6 +13,7 @@ class Map():
 
 class Piece():
     def __init__(self, HP, streght, speed, range):
+        
         self.HP = HP
         self.DF = None # ajout de la défence ?
         self.strenght = strenght
@@ -22,9 +23,18 @@ class Piece():
     def Move(self):
         pass
         
-    def Damage(self):
-        pass
-    
-    def Attack(self, other):
-        other.HP -= randint(1,2)*strenght
+    def Damage(self, strenght):
+        self.HP -= randint(1,2)*strenght
         
+    
+
+
+class Sponge(Piece):
+    def __init__(self, HP, streght, speed, range):
+        super().__init__(, HP, streght, speed, range)
+    
+    def Move(self)
+        super().Move()
+    
+    def Damage(self, strenght):
+        super().Damage(strenght)
