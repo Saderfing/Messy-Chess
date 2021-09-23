@@ -20,13 +20,16 @@ class Window:
     def DrawAll(self):
         pygame.Surface.blit(ref.GetScreen(),game.CHECKERBOARDIMG,(ref.GetWidth()/2 - game.rectCheckerBoard.x,0))
 
+    def DrawBackground(self):
+        pygame.Surface.blit(ref.GetScreen(),self.bg,(0,0))
 
 
 
 run = True
 game = Window()
 while run:
-
+    game.DrawBackground()
+    game.DrawAll()
 
 
     pygame.display.flip()
