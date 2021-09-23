@@ -1,3 +1,4 @@
+import pygame
 from pygame.mixer import fadeout
 import Sprites
 from Reference import Ref,WIDTH,HEIGHT
@@ -15,7 +16,7 @@ class Window:
         self.rectCheckerBoard.x = self.rectCheckerBoard.width/2
 
         self.bg = pygame.image.load("assets/bg.png").convert()
-    
+
     def DrawAll(self):
         pygame.Surface.blit(ref.GetScreen(),game.CHECKERBOARDIMG,(ref.GetWidth()/2 - game.rectCheckerBoard.x,0))
 
@@ -25,7 +26,7 @@ class Window:
 run = True
 game = Window()
 while run:
-    
+
 
 
     pygame.display.flip()
