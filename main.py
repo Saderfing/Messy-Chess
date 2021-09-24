@@ -6,8 +6,6 @@ import pygame
 
 ref = Ref((WIDTH,HEIGHT))
 
-map = Sprites.Map()
-map.SetObjectPosition("eponge", (0,0))
 
 class Window:
     def __init__(self):
