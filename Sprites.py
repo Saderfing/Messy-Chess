@@ -2,7 +2,7 @@ from random import randint
 
 class Map():
     def __init__(self):
-        self.EMPTY = "        f      "
+        self.EMPTY = "               "
         self.map = {(0,0):self.EMPTY, (0,1):self.EMPTY, (0,2):self.EMPTY, (0,3):self.EMPTY,
                     (1,0):self.EMPTY, (1,1):self.EMPTY, (1,2):self.EMPTY, (1,3):self.EMPTY,
                     (2,0):self.EMPTY, (2,1):self.EMPTY, (2,2):self.EMPTY, (2,3):self.EMPTY,
@@ -42,7 +42,8 @@ class Map():
 
 
     def IsEmpty(self, pos:tuple):
-        if self.EMPTY in self.map[pos]:
+        if self.EMPTY == self.map[pos]:
+            print("a")
             return True
         else:
             return False
@@ -50,7 +51,7 @@ class Map():
 
 
 class Piece():
-    def __init__(self, name:str, color:str,hp:int, strenght:int, speed:int, range:int, pos:list):
+    def __init__(self, name:str, color:str,hp:int, strenght:int, speed:int, range:int, pos:tuple):
         self.name = name
         self.color = color
         self.hp = hp
@@ -59,6 +60,7 @@ class Piece():
         self.speed = speed
         self.range = range
         self.pos = pos
+        map.SetObjectPosition(self.name, self.pos)
 
     def GetName(self):
         return self.name
@@ -68,8 +70,8 @@ class Piece():
 
 
     def Move(self, newPos:tuple):
-        if Map.IsEmpty(Map(), newPos):
-            Map.SetObjectPosition(Map(), self.name, newPos)
+        if map.IsEmpty(newPos):
+            map.SetObjectPosition(self.name, newPos)
         else:
             print("already somthing")
         
@@ -78,14 +80,16 @@ class Piece():
         self.HP -= randint(1, 2)*strenght
 
 
- 
+
+class Sponge(Piece):
+    def __init__(self, name: str, color: str, hp: int, strenght: int, speed: int, range: int, pos:tuple):
+        super().__init__(name, color, hp, strenght, speed, range, pos)
+        
+    
+    
 
 map = Map()
+eponge = Sponge("sponge", "White", 10, 10, 1, 1, (0,0))
 print(map)
-eponge = Piece("eponge         ", "white", 10, 10, 1, 2, (0,0))
-map.SetObjectPosition(eponge.GetName(), eponge.GetPos())
-print(map)
-
-map.SetObjectPosition(eponge.GetName(), (3,3), eponge.GetPos())
-
+eponge.Move((1,0))
 print(map)
