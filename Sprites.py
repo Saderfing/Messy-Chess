@@ -12,19 +12,19 @@ class Map():
     def __str__(self):
         return f"""
                      |                 |                 |
-     {self.map[0,0]} | {self.map[0,1]} | {self.map[0,2]} | {self.map[0,3]}
+     {self.map[0,0]} | {self.map[1,0]} | {self.map[2,0]} | {self.map[3,0]}
                      |                 |                 |
     -----------------------------------------------------------------------
                      |                 |                 |
-     {self.map[1,3]} | {self.map[1,1]} | {self.map[1,2]} | {self.map[1,3]}
+     {self.map[0,1]} | {self.map[1,1]} | {self.map[2,1]} | {self.map[3,1]}
                      |                 |                 |
     -----------------------------------------------------------------------
                      |                 |                 |
-     {self.map[2,0]} | {self.map[2,1]} | {self.map[2,2]} | {self.map[2,3]}
+     {self.map[0,2]} | {self.map[1,2]} | {self.map[2,2]} | {self.map[3,2]}
                      |                 |                 |
     -----------------------------------------------------------------------
                      |                 |                 |
-     {self.map[3,0]} | {self.map[3,1]} | {self.map[3,2]} | {self.map[3,3]}
+     {self.map[0,3]} | {self.map[1,3]} | {self.map[2,3]} | {self.map[3,3]}
                      |                 |                 |
     """
 
@@ -111,8 +111,9 @@ class Patate(Piece):
 
 
 class Sponge(Piece):
-    def __init__(self, name: str, color: str, hp: int, strenght: int, speed: int, range: int, pos:tuple):
-        super().__init__(name, color, hp, strenght, speed, range, pos)
+    def __init__(self, name:str, color: str, hp: int, strenght: int, speed: int, range: int, pos:tuple):
+        self.name = name
+        super().__init__(self.name, color, hp, strenght, speed, range, pos)
 
 
 
