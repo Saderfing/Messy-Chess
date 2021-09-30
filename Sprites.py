@@ -34,7 +34,6 @@ class Map():
     def SetObjectPosition(self, objName:str, newPos:tuple, lastPos=None):
         if lastPos != None:
             print(lastPos)
-            print("a")
             self.map[lastPos] = self.EMPTY
         if newPos in self.map.keys():
             self.map[newPos] = objName
@@ -44,7 +43,6 @@ class Map():
 
     def IsEmpty(self, pos:tuple):
         if self.EMPTY == self.map[pos]:
-            print("a")
             return True
         else:
             return False
@@ -52,16 +50,15 @@ class Map():
 
 
 class Piece():
-    def __init__(self, name:str, color:str,hp:int, strenght:int, speed:int, range:int, pos:tuple):
+    def __init__(self, name:str, color:str,hp:int, strenght:int, range:int, pos:tuple):
         self.name = name
         self.color = color
         self.hp = hp
         self.df = None # ajout de la défence ?
         self.strenght = strenght
-        self.speed = speed
         self.range = range
         self.pos = pos
-        map.SetObjectPosition(self.name, self.pos)
+        map.SetObjectPosition(self.GetColorName(), self.pos)
 
     def GetName(self):
         return self.name
@@ -84,9 +81,10 @@ class Piece():
         return self.color+self.name
 
 class Patate(Piece):
-    def __init__(self, color, hp, strenght, speed, range, pos):
+    def __init__(self, color:str, hp:int, strenght:int, pos:tuple):
         self.name = "Patate"
-        super().__init__(self.name,color,hp,strenght,speed,range,pos)
+        self.range = 1
+        super().__init__(self.name,color,hp,strenght,self.range,pos)
 
     def Movement(self, newPos:tuple):
         localMap = map.GetMap()
@@ -99,33 +97,35 @@ class Patate(Piece):
         else:
             print("pas possible")
 
-    def CheckAttack(self):
+    def Attack(self):
         localMap = map.GetMap()
-        if self.GetPos() in localMap.keys() and not map.IsEmpty(self.GetPos()):
-            print("attack", self.GetPos())
+        attackPosList = []
+        attackPosList.append((self.pos[0]+self.range,self.pos[1]))
+        attackPosList.append((self.pos[0]-self.range,self.pos[1]))
+        attackPosList.append((self.pos[0],self.pos[1]-self.range))
+        attackPosList.append((self.pos[0],self.pos[1]+self.range))
 
-        else:
-            print("nothing to attack")
-
+        for i in attackPosList:
+            if i in localMap and not map.IsEmpty(i):
+                print("attack in ", i)
+                
 
 
 
 
 class Sponge(Piece):
-    def __init__(self, name:str, color: str, hp: int, strenght: int, speed: int, range: int, pos:tuple):
+    def __init__(self, name:str, color: str, hp: int, strenght: int, range: int, pos:tuple):
         self.name = name
-        super().__init__(self.name, color, hp, strenght, speed, range, pos)
+        super().__init__(self.name, color, hp, strenght, range, pos)
 
 
 
 
 map = Map()
-eponge = Sponge("sponge", "White", 10, 10, 1, 1, (0,0))
+eponge = Sponge("sponge", "White", 10, 10, 1, (0,0))
+patateBlanche = Patate("White",10,10,(3,1))
+patateNoire = Patate("Black", 10, 10,(2,1))
+
 print(map)
-patateBlanche = Patate("white",10,10,1,2,(0,0))
-patateNoire = Patate("black", 10, 10, 2, 2,(0,1))
-map.SetObjectPosition(patateBlanche.GetColorName(), patateBlanche.GetPos())
-map.SetObjectPosition(patateNoire.GetColorName(), patateNoire.GetPos())
-print(map)
-patateBlanche.Movement((0,1))
+patateNoire.Attack()
 print(map)
