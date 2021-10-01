@@ -110,13 +110,78 @@ class Patate(Piece):
                 print("attack in ", i)
                 
 
+class Billy(Piece):
+    def __init__(self, color, hp, strenght, range, pos):
+        self.name = "Billy"
+        self.speed = 3
+        super().__init__(self.name, color, hp, strenght, range,pos)
+        self.moveDir = {0: self.Up, 1: self.Down, 2: self.Right, 3: self.Left}
+
+    def Up(self): # déplacement en Y vers le haut
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]), self.pos)
+
+    def Down(self):# déplacement en Y vers le bas
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        if pos[1] < self.speed:
+            map.SetObjectPosition(self.GetColorName(), (pos[0],self.speed), self.pos)
+
+    def Right(self):# déplacement en X 
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        if pos[0] < self.speed:
+            map.SetObjectPosition(self.GetColorName(), (self.speed, pos[1]), self.pos)
+
+    def Left(self):# déplacement en X
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        map.SetObjectPosition(self.GetColorName(), (pos[0] - pos[0], pos[1]), self.pos)
+
+
+    def CheckAttack(self, attackPos:tuple):
+        localMap = map.GetMap()
+        if self.pos != attackPos and self.pos in localMap.keys():
+            print("attack", attackPos)
+
+        else:
+            print("nothing to attack")
+
 
 
 
 class Sponge(Piece):
-    def __init__(self, name:str, color: str, hp: int, strenght: int, range: int, pos:tuple):
-        self.name = name
+    def __init__(self, color: str, hp: int, strenght: int, range: int, pos:tuple):
+        self.name = "Sponge"
+        self.speed = 1
+        self.range = 1
         super().__init__(self.name, color, hp, strenght, range, pos)
+
+    def Up(self): # déplacement en Y vers le haut
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        if pos[1] >= 0:
+            map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - self.speed), self.pos)
+
+    def Down(self):# déplacement en Y vers le bas
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        if pos[1] < 3:
+            map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] + self.speed), self.pos)
+
+    def Right(self):# déplacement en X 
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        if pos[0] < 3:
+            map.SetObjectPosition(self.GetColorName(), (pos[0] + self.speed, pos[1]), self.pos)
+
+    def Left(self):# déplacement en X
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        if pos[0] >= 0:
+            map.SetObjectPosition(self.GetColorName(), (pos[0] - self.speed, pos[1]), self.pos)
+
 
 
 
