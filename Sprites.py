@@ -49,6 +49,8 @@ class Map():
 
 
 
+
+
 class Piece():
     def __init__(self, name:str, color:str,hp:int, strenght:int, range:int, pos:tuple):
         self.name = name
@@ -60,11 +62,14 @@ class Piece():
         self.pos = pos
         map.SetObjectPosition(self.GetColorName(), self.pos)
 
+
     def GetName(self):
         return self.name
 
     def GetPos(self):
         return self.pos
+    def GetHp(self):
+        return self.hp
 
 
     def Move(self, newPos:tuple):
@@ -75,11 +80,12 @@ class Piece():
 
 
     def Damage(self, strenght):
-        self.HP -= randint(1, 2)*strenght
+        self.hp -= random()*strenght
 
     def GetColorName(self):
         return self.color+self.name
-    
+
+
 
 class Patate(Piece):
     def __init__(self, color:str, hp:int, strenght:int, pos:tuple):
@@ -108,7 +114,7 @@ class Patate(Piece):
         if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0],self.speed), self.pos)
 
-    def Right(self, dist):# déplacement en X 
+    def Right(self, dist):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         dist = self.CapDist(dist)
@@ -133,8 +139,11 @@ class Patate(Piece):
 
         for i in attackPosList:
             if i in localMap and not map.IsEmpty(i):
-                print("attack in ", i)
-                
+                piece = localMap[i]
+                objPiece = game.GetObjectByColorName(piece)
+                objPiece.Damage(self.strenght)
+                print("qui c qu'il attack", piece)
+
 
 
 class Billy(Piece):
@@ -156,7 +165,7 @@ class Billy(Piece):
         if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0],self.speed), self.pos)
 
-    def Right(self):# déplacement en X 
+    def Right(self):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
@@ -196,7 +205,7 @@ class Sponge(Piece):
         if pos[1] < 3 and map.IsEmpty((pos[0], pos[1] + self.speed)):
             map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] + self.speed), self.pos)
 
-    def Right(self):# déplacement en X 
+    def Right(self):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         if pos[0] < 3 and map.IsEmpty((pos[0] + self.speed, pos[1])):
@@ -218,10 +227,10 @@ class DejaVu(Piece):
     def Movement(self, newPos:tuple):
         localMap = map.GetMap()
         if newPos[0] == self.pos[0] and newPos[1] != self.pos[1] and map.IsEmpty(newPos):
-            
+
             map.SetObjectPosition(self.GetColorName(),newPos,self.pos)
         elif newPos[0] != self.pos[0] and newPos[1] == self.pos[1] and map.IsEmpty(newPos):
-            
+
             map.SetObjectPosition(self.GetColorName(),newPos,self.pos)
         else:
             print("pas possible")
@@ -239,7 +248,7 @@ class DejaVu(Piece):
         if pos[1] < 3:
             map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] + self.speed), self.pos)
 
-    def Right(self):# déplacement en X 
+    def Right(self):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         if pos[0] < 3:
@@ -254,12 +263,37 @@ class DejaVu(Piece):
 
 
 
+class Game():
+    def __init__(self):
+        self.listPiece = []
+
+    def GetObjectByColorName(self, colorName:str):
+        for piece in self.listPiece:
+            if piece.GetColorName() == colorName:
+                return piece
+        print("not found")
+
+    def AddToPieceList(self, obj:list):
+        for i in obj:
+            self.listPiece.append(i)
+
+    def update(self):
+        epongeBlanche = self.listPiece[0]
+        patateBlanche = self.listPiece[1]
+        patateNoire = self.listPiece[2]
+
+
+        self.listPiece[2].Attack()
+
+        print(self.listPiece[1].GetHp())
 
 map = Map()
-eponge = Sponge("sponge", "White", 10, 10, 1, (0,0))
-patateBlanche = Patate("White",10,10,(3,1))
-patateNoire = Patate("Black", 10, 10,(2,1))
+game = Game()
 
+epongeBlanche = Sponge("Sponge", "White", 10, 10, 1, (0,0))
+patateBlanche = Patate("White",10,10,(1,1))
+patateNoire = Patate("Black", 10, 10,(2,1))
+game.AddToPieceList([epongeBlanche, patateBlanche, patateNoire])
 print(map)
-patateNoire.Attack()
+game.update()
 print(map)
