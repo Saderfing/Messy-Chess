@@ -120,25 +120,26 @@ class Billy(Piece):
     def Up(self): # déplacement en Y vers le haut
         localMap = map.GetMap()
         pos = list(self.pos)
-        map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]), self.pos)
+        if map.IsEmpty((pos[0], pos[1] - pos[1])):
+                map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]), self.pos)
 
     def Down(self):# déplacement en Y vers le bas
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[1] < self.speed:
+        if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0],self.speed), self.pos)
 
     def Right(self):# déplacement en X 
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[0] < self.speed:
+        if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (self.speed, pos[1]), self.pos)
 
     def Left(self):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
-        map.SetObjectPosition(self.GetColorName(), (pos[0] - pos[0], pos[1]), self.pos)
-
+        if map.IsEmpty((pos[0], pos[1] - pos[1])):
+            map.SetObjectPosition(self.GetColorName(), (pos[0] - pos[0], pos[1]), self.pos)
 
     def CheckAttack(self, attackPos:tuple):
         localMap = map.GetMap()
@@ -147,8 +148,6 @@ class Billy(Piece):
 
         else:
             print("nothing to attack")
-
-
 
 
 class Sponge(Piece):
@@ -161,25 +160,25 @@ class Sponge(Piece):
     def Up(self): # déplacement en Y vers le haut
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[1] >= 0:
+        if pos[1] >= 0 and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - self.speed), self.pos)
 
     def Down(self):# déplacement en Y vers le bas
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[1] < 3:
+        if pos[1] < 3 and map.IsEmpty((pos[0], pos[1] + self.speed)):
             map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] + self.speed), self.pos)
 
     def Right(self):# déplacement en X 
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[0] < 3:
+        if pos[0] < 3 and map.IsEmpty((pos[0] + self.speed, pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0] + self.speed, pos[1]), self.pos)
 
     def Left(self):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[0] >= 0:
+        if pos[0] >= 0 and map.IsEmpty((pos[0] - self.speed, pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0] - self.speed, pos[1]), self.pos)
 
 
