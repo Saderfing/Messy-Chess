@@ -259,27 +259,27 @@ class DejaVu(Piece):
 
 class Game():
     def __init__(self):
-        self.listPiece = []
+        self.dictPiece = dict()
 
     def GetObjectByColorName(self, colorName:str):
-        for piece in self.listPiece:
-            if piece.GetColorName() == colorName:
-                return piece
+        if colorName in self.dictPiece:
+            return self.dictPiece[colorName]    
         print("not found")
 
-    def AddToPieceList(self, obj:list):
-        for i in obj:
-            self.listPiece.append(i)
+    def AddToPieceDict(self, obj:dict):
+        for keys,values in obj.items():
+            self.dictPiece[keys] = values
+        
 
     def update(self):
-        epongeBlanche = self.listPiece[0]
-        patateBlanche = self.listPiece[1]
-        patateNoire = self.listPiece[2]
+        epongeBlanche = self.dictPiece["WhiteSponge"]
+        patateBlanche = self.dictPiece["WhitePatate"]
+        patateNoire = self.dictPiece["BlackPatate"]
 
 
-        self.listPiece[2].Attack()
+        self.dictPiece["BlackPatate"].Attack()
 
-        print(self.listPiece[1].GetHp())
+        print(self.dictPiece["WhitePatate"].GetHp())
 
 map = Map()
 game = Game()
@@ -287,7 +287,7 @@ game = Game()
 epongeBlanche = Sponge("White", 10, 10, 1, (0,0))
 patateBlanche = Patate("White",10,10,(1,1))
 patateNoire = Patate("Black", 10, 10,(2,1))
-game.AddToPieceList([epongeBlanche, patateBlanche, patateNoire])
+game.AddToPieceDict({epongeBlanche.GetColorName():epongeBlanche, patateBlanche.GetColorName():patateBlanche, patateNoire.GetColorName():patateNoire})
 print(map)
 game.update()
 print(map)
