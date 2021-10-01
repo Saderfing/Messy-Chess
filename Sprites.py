@@ -1,5 +1,6 @@
 from random import random
 
+
 class Map():
     def __init__(self):
         self.EMPTY = "               "
@@ -31,14 +32,13 @@ class Map():
         return self.map
 
     def SetObjectPosition(self, objName:str, newPos:tuple, lastPos=None):
-        if lastPos != None:
-            print(lastPos)
-            print("a")
-            self.map[lastPos] = self.EMPTY
-        if newPos in self.map.keys():
-            self.map[newPos] = objName
-        else:
-            print("invalid position")
+            if game.isLiving(objName) > 0:
+                if lastPos != None:
+                    self.map[lastPos] = self.EMPTY
+                if newPos in self.map.keys():
+                    self.map[newPos] = objName
+                else:
+                    print("invalid position")
 
 
     def IsEmpty(self, pos:tuple):
@@ -59,6 +59,7 @@ class Piece():
         self.range = range
         self.pos = pos
         map.SetObjectPosition(self.GetColorName(), self.pos)
+        
 
     def GetName(self):
         return self.name
@@ -77,7 +78,7 @@ class Piece():
         return self.hp
 
     def Damage(self, strenght):
-        self.hp -= round(random()*strenght)
+        self.hp -= 10*round(random()*strenght)
         
     def GetColorName(self):
         return self.color+self.name
@@ -269,7 +270,11 @@ class Game():
     def AddToPieceDict(self, obj:dict):
         for keys,values in obj.items():
             self.dictPiece[keys] = values
-        
+    def GetPieceDict(self):
+        return self.dictPiece
+    
+    def isLiving(self, objName:str):
+        return self.dictPiece[objName].GetHp()
 
     def update(self):
         epongeBlanche = self.dictPiece["WhiteSponge"]
@@ -287,6 +292,7 @@ game = Game()
 epongeBlanche = Sponge("White", 10, 10, 1, (0,0))
 patateBlanche = Patate("White",10,10,(1,1))
 patateNoire = Patate("Black", 10, 10,(2,1))
+
 game.AddToPieceDict({epongeBlanche.GetColorName():epongeBlanche, patateBlanche.GetColorName():patateBlanche, patateNoire.GetColorName():patateNoire})
 print(map)
 game.update()
