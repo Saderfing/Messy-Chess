@@ -32,6 +32,7 @@ class Map():
         return self.map
 
     def SetObjectPosition(self, objName:str, newPos:tuple, lastPos=None):
+<<<<<<< Updated upstream
             if game.isLiving(objName) > 0:
                 if lastPos != None:
                     self.map[lastPos] = self.EMPTY
@@ -39,6 +40,18 @@ class Map():
                     self.map[newPos] = objName
                 else:
                     print("invalid position")
+=======
+            if lastPos != None:
+                print(lastPos)
+                self.map[lastPos] = self.EMPTY
+            if newPos in self.map.keys():
+                self.map[newPos] = objName
+            else:
+                print("invalid position")
+
+        
+
+>>>>>>> Stashed changes
 
 
     def IsEmpty(self, pos:tuple):
@@ -46,7 +59,8 @@ class Map():
             return True
         else:
             return False
-
+    def SetEmpty(self,pos):
+        self.map[pos] = self.EMPTY
 
 
 class Piece():
@@ -67,6 +81,7 @@ class Piece():
     def GetPos(self):
         return self.pos
 
+<<<<<<< Updated upstream
 
     def Move(self, newPos:tuple):
         if map.IsEmpty(newPos):
@@ -80,8 +95,16 @@ class Piece():
     def Damage(self, strenght):
         self.hp -= 10*round(random()*strenght)
         
+=======
+    def Damage(self, strenght):
+        self.hp -= int(random()*strenght)
+
+>>>>>>> Stashed changes
     def GetColorName(self):
         return self.color+self.name
+    
+    def SetKill(self):
+        map.SetEmpty(self.pos)
 
 
 
@@ -103,7 +126,7 @@ class Patate(Piece):
         pos = list(self.pos)
         dist = self.CapDist(dist)
         if map.IsEmpty((pos[0], pos[1] - pos[1])):
-            map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]), self.pos)
+            map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]),self.pos)
 
     def Down(self, dist):# déplacement en Y vers le bas
         localMap = map.GetMap()
@@ -117,7 +140,7 @@ class Patate(Piece):
         pos = list(self.pos)
         dist = self.CapDist(dist)
         if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
-            map.SetObjectPosition(self.GetColorName(), (self.speed, pos[1]), self.pos)
+            map.SetObjectPosition(self.GetColorName(), (self.speed, pos[1]),self.pos)
 
     def Left(self, dist):# déplacement en X
         localMap = map.GetMap()
@@ -128,6 +151,7 @@ class Patate(Piece):
 
 
     def Attack(self):
+<<<<<<< Updated upstream
             localMap = map.GetMap()
             attackPosList = []
             attackPosList.append((self.pos[0]+self.range,self.pos[1]))
@@ -141,6 +165,23 @@ class Patate(Piece):
                     objPiece = game.GetObjectByColorName(piece)
                     objPiece.Damage(self.strenght)
                     print("qui c qu'il attack", piece)
+=======
+        localMap = map.GetMap()
+        attackPosList = []
+        attackPosList.append((self.pos[0]+self.range,self.pos[1]))
+        attackPosList.append((self.pos[0]-self.range,self.pos[1]))
+        attackPosList.append((self.pos[0],self.pos[1]-self.range))
+        attackPosList.append((self.pos[0],self.pos[1]+self.range))
+
+        for i in attackPosList:
+            if i in localMap and not map.IsEmpty(i):
+                piece = localMap[i]
+                objPiece = game.GetObjectByColorName(piece)
+                objPiece.Damage(self.strenght)
+                print("qui c qu'il attack", piece)
+                if objPiece.GetHp() <= 0:
+                    objPiece.SetKill()
+>>>>>>> Stashed changes
 
 
 class Billy(Piece):
@@ -154,7 +195,7 @@ class Billy(Piece):
         localMap = map.GetMap()
         pos = list(self.pos)
         if map.IsEmpty((pos[0], pos[1] - pos[1])):
-                map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]), self.pos)
+                map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]),self.pos)
 
     def Down(self):# déplacement en Y vers le bas
         localMap = map.GetMap()
@@ -194,7 +235,7 @@ class Sponge(Piece):
         localMap = map.GetMap()
         pos = list(self.pos)
         if pos[1] >= 0 and map.IsEmpty((pos[0], pos[1] - pos[1])):
-            map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - self.speed), self.pos)
+            map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - self.speed),self.pos)
 
     def Down(self):# déplacement en Y vers le bas
         localMap = map.GetMap()
@@ -213,6 +254,24 @@ class Sponge(Piece):
         pos = list(self.pos)
         if pos[0] >= 0 and map.IsEmpty((pos[0] - self.speed, pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0] - self.speed, pos[1]), self.pos)
+    
+    def Attack(self):
+        localMap = map.GetMap()
+        attackPosneg= [(x,self.pos[1]) for x in range(-self.range, 0)]
+        attackPospos= [(x, self.pos[1]) for x in range(1, self.range+1)]
+        attackPos = attackPosneg + attackPospos
+    
+
+        for i in attackPos:
+            
+            if i in localMap.keys() and not map.IsEmpty(i):
+                piece = localMap[i]
+                objPiece = game.GetObjectByColorName(piece)
+                objPiece.Damage(self.strenght)
+                print("qui c qu'il attack", piece)
+                if objPiece.GetHp() <= 0:
+                    objPiece.SetKill()
+
 
 
 class DejaVu(Piece):
@@ -282,14 +341,25 @@ class Game():
         patateNoire = self.dictPiece["BlackPatate"]
 
 
+<<<<<<< Updated upstream
         self.dictPiece["BlackPatate"].Attack()
 
         print(self.dictPiece["WhitePatate"].GetHp())
+=======
+        self.listPiece[0].Attack()
+        self.listPiece[0].Attack()
+        for i in self.listPiece:
+            print(i.GetHp())
+>>>>>>> Stashed changes
 
 map = Map()
 game = Game()
 
+<<<<<<< Updated upstream
 epongeBlanche = Sponge("White", 10, 10, 1, (0,0))
+=======
+epongeBlanche = Sponge("White",10,10,2,(0,1))
+>>>>>>> Stashed changes
 patateBlanche = Patate("White",10,10,(1,1))
 patateNoire = Patate("Black", 10, 10,(2,1))
 
