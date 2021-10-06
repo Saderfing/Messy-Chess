@@ -279,49 +279,43 @@ class DejaVu(Piece):
         self.range = 1
         super().__init__(self.name, color, hp, strenght, self.range, pos)
 
-    def Movement(self, newPos:tuple):
-        localMap = map.GetMap()
-        if newPos[0] == self.pos[0] and newPos[1] != self.pos[1] and map.IsEmpty(newPos):
-            map.SetObjectPosition(self.GetColorName(),newPos,self.pos)
-            self.pos = newPos
+    def CapDist(self, dist):
+        if dist < 1:
+            return 1
+        if dist > 4:
+            return 4
+        return dist
 
-        elif newPos[0] != self.pos[0] and newPos[1] == self.pos[1] and map.IsEmpty(newPos):
-            map.SetObjectPosition(self.GetColorName(),newPos,self.pos)
-            self.pos = newPos
-
-        else:
-            print("pas possible")
-
-
-    def Up(self): # déplacement en Y vers le haut
+    def UpRight(self,dist): # déplacement en vers le haut droit
         localMap = map.GetMap()
         pos = list(self.pos)
-        newPos = (pos[0], pos[1] - self.speed)
-        if pos[1] >= 0:
+        dist = self.CapDist(dist)
+        newPos = (pos[0] + dist , pos[1] - dist)
+        if newPos in localMap.keys() and map.IsEmpty(newPos) :
+            map.SetObjectPosition(self.GetColorName(), newPos,self.pos)
+            self.pos = newPos
+
+    def DownRight(self,dist): # déplacement bas droit
+        localMap = map.GetMap()
+        pos = list(self.pos)
+        newPos = (pos[0] - dist , pos[1] - dist)
+        if newPos in localMap.keys() and map.IsEmpty(newPos) :
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
-    def Down(self):# déplacement en Y vers le bas
+    def UpLeft(self, dist):# déplacement en haut gauche
         localMap = map.GetMap()
         pos = list(self.pos)
-        newPos = (pos[0], pos[1] + self.speed)
-        if pos[1] < 3:
+        newPos = (pos[0] - dist, pos[1]-dist)
+        if newPos in localMap.keys() and map.IsEmpty(newPos) :
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
-    def Right(self):# déplacement en X
+    def DownLeft(self, dist):# déplacement en bas gauche
         localMap = map.GetMap()
         pos = list(self.pos)
-        newPos = (pos[0] + self.speed, pos[1])
-        if pos[0] < 3:
-            map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
-            self.pos = newPos
-
-    def Left(self):# déplacement en X
-        localMap = map.GetMap()
-        pos = list(self.pos)
-        newPos = (pos[0] - self.speed, pos[1])
-        if pos[0] >= 0:
+        newPos = (pos[0] - dist, pos[1]+dist)
+        if newPos in localMap.keys() and map.IsEmpty(newPos) :
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
@@ -365,18 +359,22 @@ class Game():
         _patateBlanche = self.dictPiece["WhitePatate"]
         _patateNoire = self.dictPiece["BlackPatate"]
         _billyBlanc = self.dictPiece["WhiteBilly"]
+        _dejavuBlanc = self.dictPiece["WhiteDeja-Vu"]
+
+        _dejavuBlanc.UpLeft(2)
 
 map = Map()
 game = Game()
 
-epongeBlanche = Sponge("White", 10, 10, (3,1))
-patateBlanche = Patate("White", 10, 10,(2,1))
-patateNoire = Patate("Black", 10, 10,(3,1))
+epongeBlanche = Sponge("White", 10, 10, (1,0))
+patateBlanche = Patate("White", 10, 10,(0,2))
+patateNoire = Patate("Black", 10, 10,(0,0))
 billyBlanc = Billy("White", 10, 10, (0,1))
-dejaVuBlanc = DejaVu("White",10,10,(1,2))
+dejaVuBlanc = DejaVu("White",10,10,(2,3))
 game.AddToPieceDict({epongeBlanche.GetColorName():epongeBlanche, patateBlanche.GetColorName():patateBlanche, patateNoire.GetColorName():patateNoire, billyBlanc.GetColorName():billyBlanc, dejaVuBlanc.GetColorName():dejaVuBlanc})
 
-game.update()
+print(dejaVuBlanc.GetColorName())
 print(map)
-billyBlanc.Up()
+game.update()
+
 print(map)
