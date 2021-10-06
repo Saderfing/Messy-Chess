@@ -49,7 +49,6 @@ class Map():
     def SetEmpty(self,pos):
         self.map[pos] = self.EMPTY
 
-
 class Piece():
     def __init__(self, name:str, color:str,hp:int, strenght:int, range:int, pos:tuple):
         self.name = name
@@ -88,8 +87,6 @@ class Piece():
     
     def SetKill(self):
         map.SetEmpty(self.pos)
-
-
 
 class Patate(Piece):
     def __init__(self, color:str, hp:int, strenght:int, pos:tuple):
@@ -177,36 +174,42 @@ class Billy(Piece):
         pos = list(self.pos)
         if map.IsEmpty((pos[0], pos[1] - pos[1])):
                 map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]),self.pos)
+        else:
+            self.Attack((pos[0], pos[1] - pos[1]))
 
     def Down(self):# déplacement en Y vers le bas
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
+        if pos[1] < self.speed and map.IsEmpty((pos[0], self.speed)):
             map.SetObjectPosition(self.GetColorName(), (pos[0],self.speed), self.pos)
+        else:
+            self.Attack((pos[0],self.speed))
 
     def Right(self):# déplacement en X 
         localMap = map.GetMap()
         pos = list(self.pos)
         if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (self.speed, pos[1]), self.pos)
+        else:
+            self.Attack((pos[0], pos[1] - pos[1]))
 
     def Left(self):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
-        if map.IsEmpty((pos[0], pos[1] - pos[1])):
+        if map.IsEmpty((pos[0] - pos[0], pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0] - pos[0], pos[1]), self.pos)
+        else:
+            self.Attack((pos[0] - pos[0], pos[1]))
 
-    def CheckAttack(self, attackPos:tuple):
+    def Attack(self, attackPos:tuple):
         localMap = map.GetMap()
-        if self.pos != attackPos and self.pos in localMap.keys():
+        if game.GetObjectByColorName(localMap[attackPos]):
             print("attack", attackPos)
-
         else:
             print("nothing to attack")
 
-
 class Sponge(Piece):
-    def __init__(self, color: str, hp: int, strenght: int, range: int, pos:tuple):
+    def __init__(self, color: str, hp: int, strenght: int, pos:tuple):
         self.name = "Sponge"
         self.speed = 1
         self.range = 1
@@ -215,7 +218,7 @@ class Sponge(Piece):
     def Up(self): # déplacement en Y vers le haut
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[1] >= 0 and map.IsEmpty((pos[0], pos[1] - pos[1])):
+        if pos[1] >= 0 and map.IsEmpty((pos[0], pos[1] - self.speed)):
             map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - self.speed),self.pos)
 
     def Down(self):# déplacement en Y vers le bas
@@ -252,8 +255,6 @@ class Sponge(Piece):
                 print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
                     objPiece.SetKill()
-
-
 
 class DejaVu(Piece):
     def __init__(self, name: str, color: str, hp: int, strenght: int, pos: tuple):
@@ -297,7 +298,6 @@ class DejaVu(Piece):
         if pos[0] >= 0:
             map.SetObjectPosition(self.GetColorName(), (pos[0] - self.speed, pos[1]), self.pos)
 
-
 class Game():
     def __init__(self):
         self.dictPiece = dict()
@@ -319,11 +319,10 @@ class Game():
         patateBlanche = self.dictPiece["WhitePatate"]
         patateNoire = self.dictPiece["BlackPatate"]
 
-
 map = Map()
 game = Game()
 
-epongeBlanche = Sponge("White", 10, 10, 1, (0,0))
+epongeBlanche = Sponge("White", 10, 10, (0,0))
 patateBlanche = Patate("White",10,10,(1,1))
 patateNoire = Patate("Black", 10, 10,(2,1))
 
