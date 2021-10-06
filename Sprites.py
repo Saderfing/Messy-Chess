@@ -212,10 +212,8 @@ class Billy(Piece):
 
     def Attack(self, attackPos:tuple):
         localMap = map.GetMap()
-        print(self.pos)
         other = game.GetObjectByColorName(localMap[attackPos])
-        print(other.GetPos())
-        if other.GetColor != self.GetColor():
+        if other.GetColor() != self.GetColor():
             print("attack", attackPos)
         else:
             print("nothing to attack")
@@ -352,14 +350,14 @@ class Game():
 map = Map()
 game = Game()
 
-epongeBlanche = Sponge("White", 10, 10, (0,0))
+epongeBlanche = Sponge("White", 10, 10, (3,1))
 patateBlanche = Patate("White", 10, 10,(2,1))
-patateNoire = Patate("Black", 10, 10,(3,1))
-billyBlanc = Billy("White", 10, 10, (0,1))
+patateNoire = Patate("Black", 10, 10,(0,0))
+billyBlanc = Billy("White", 10, 10, (0,3))
 
 game.AddToPieceDict({epongeBlanche.GetColorName():epongeBlanche, patateBlanche.GetColorName():patateBlanche, patateNoire.GetColorName():patateNoire, billyBlanc.GetColorName():billyBlanc})
 
 game.update()
 print(map)
-billyBlanc.Right()
+billyBlanc.Up()
 print(map)
