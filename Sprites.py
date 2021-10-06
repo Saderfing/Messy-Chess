@@ -106,29 +106,37 @@ class Patate(Piece):
         localMap = map.GetMap()
         pos = list(self.pos)
         dist = self.CapDist(dist)
-        if map.IsEmpty((pos[0], pos[1] - pos[1])):
-            map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]),self.pos)
+        newPos = (pos[0], pos[1] - dist)
+        if map.IsEmpty(newPos):
+            map.SetObjectPosition(self.GetColorName(), newPos,self.pos)
+            self.pos = newPos
 
     def Down(self, dist):# déplacement en Y vers le bas
         localMap = map.GetMap()
         pos = list(self.pos)
         dist = self.CapDist(dist)
+        newPos = (pos[0], pos[1] + dist)
         if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0],self.speed), self.pos)
+            self.pos = newPos
 
     def Right(self, dist):# déplacement en X 
         localMap = map.GetMap()
         pos = list(self.pos)
         dist = self.CapDist(dist)
+        newPos = (pos[0] + dist, pos[1])
         if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (self.speed, pos[1]),self.pos)
+            self.pos = newPos
 
     def Left(self, dist):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         dist = self.CapDist(dist)
+        newPos = (pos[0] - dist, pos[1])
         if map.IsEmpty((pos[0], pos[1] - pos[1])):
             map.SetObjectPosition(self.GetColorName(), (pos[0] - pos[0], pos[1]), self.pos)
+            self.pos = newPos
 
 
     def Attack(self):
