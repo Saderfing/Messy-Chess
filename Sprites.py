@@ -1,6 +1,4 @@
 from random import random
-from typing import NewType
-
 
 class Map():
     def __init__(self):
@@ -175,38 +173,49 @@ class Billy(Piece):
     def Up(self): # déplacement en Y vers le haut
         localMap = map.GetMap()
         pos = list(self.pos)
-        if map.IsEmpty((pos[0], pos[1] - pos[1])):
-                map.SetObjectPosition(self.GetColorName(), (pos[0], pos[1] - pos[1]),self.pos)
+        newPos = (pos[0], pos[1] - pos[1])
+        if map.IsEmpty(newPos):
+                map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
+                self.pos = newPos
         else:
-            self.Attack((pos[0], pos[1] - pos[1]))
+            self.Attack(newPos)
 
     def Down(self):# déplacement en Y vers le bas
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[1] < self.speed and map.IsEmpty((pos[0], self.speed)):
-            map.SetObjectPosition(self.GetColorName(), (pos[0],self.speed), self.pos)
+        newPos = (pos[0], self.speed)
+        if pos[1] < self.speed and map.IsEmpty(newPos):
+            map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
+            self.pos = newPos
         else:
-            self.Attack((pos[0],self.speed))
+            self.Attack(newPos)
 
     def Right(self):# déplacement en X 
         localMap = map.GetMap()
         pos = list(self.pos)
-        if pos[1] < self.speed and map.IsEmpty((pos[0], pos[1] - pos[1])):
-            map.SetObjectPosition(self.GetColorName(), (self.speed, pos[1]), self.pos)
+        newPos = (self.speed, pos[1])
+        if pos[1] < self.speed and map.IsEmpty(newPos):
+            map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
+            self.pos = newPos
         else:
-            self.Attack((pos[0], pos[1] - pos[1]))
+            self.Attack(newPos)
 
     def Left(self):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
-        if map.IsEmpty((pos[0] - pos[0], pos[1])):
-            map.SetObjectPosition(self.GetColorName(), (pos[0] - pos[0], pos[1]), self.pos)
+        newPos = (pos[0] - pos[0], pos[1])
+        if map.IsEmpty(newPos):
+            map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
+            self.pos = newPos
         else:
             self.Attack((pos[0] - pos[0], pos[1]))
 
     def Attack(self, attackPos:tuple):
         localMap = map.GetMap()
-        if game.GetObjectByColorName(localMap[attackPos]).GetColor() != self.color:
+        print(self.pos)
+        other = game.GetObjectByColorName(localMap[attackPos])
+        print(other.GetPos())
+        if other.GetColor != self.GetColor():
             print("attack", attackPos)
         else:
             print("nothing to attack")
@@ -317,8 +326,7 @@ class DejaVu(Piece):
         newPos = (pos[0] - self.speed, pos[1])
         if pos[0] >= 0:
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
-            self.pos = newPos
-            
+            self.pos = newPos            
             
 class Game():
     def __init__(self):
@@ -337,10 +345,10 @@ class Game():
     
 
     def update(self):
-        epongeBlanche = self.dictPiece["WhiteSponge"]
-        patateBlanche = self.dictPiece["WhitePatate"]
-        patateNoire = self.dictPiece["BlackPatate"]
-        billyBlanc = self.dictPiece["WhiteBilly"]
+        _epongeBlanche = self.dictPiece["WhiteSponge"]
+        _patateBlanche = self.dictPiece["WhitePatate"]
+        _patateNoire = self.dictPiece["BlackPatate"]
+        _billyBlanc = self.dictPiece["WhiteBilly"]
 
 map = Map()
 game = Game()
