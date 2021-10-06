@@ -4,7 +4,7 @@ import Sprites
 from Reference import Ref,WIDTH,HEIGHT
 import pygame
 
-ref = Ref((WIDTH,HEIGHT))
+#ref = Ref((WIDTH,HEIGHT))
 
 
 class Window:
@@ -30,19 +30,49 @@ class Window:
                 pass
             else:pygame.Surface.blit(ref.SCREEN, self.whitePotato, (280+i[0]*180, i[1]*180))
 
-
+class Consol():
+    def __init__(self):
+        self.turn = 0
+        self.pieceListe = ("eponge", "patate", "dejavu", "billy")
+        self.action = {"attack": self.MovePiece, "move": self.MovePiece}
+        
+    def NewRound(self):
+        pieces = Sprites.game.GetPieceDict()
+        turn = None
+        while turn is None:
+            turn = str(input("Que voulez-vous faire ? : (attack/move): ")).lower()
+            if turn in self.action.keys():
+                self.action[turn]()
+            else: 
+                print("la fonction n'est pas reconnue")
+        
+    def MovePiece(self):
+        piece = self.DefPiece()
+        color = self.GetColor()
+        dir = self.DefDir()
+        if piece in ("patate", "dejavu"):
+            lenght = self.GetColor()
+    
+    def DefDir(self):
+        _dir = None
+        while _dir is None:
+            _dir = input("Quelle distance ? : ")
+            if type(_dir) is type(int):
+                return _dir
+            else:
+                _dir = None
+    
+    def DefPiece(self):
+        print(f"Vous pouvez jouez les pièces {self.pieceListe}")
+        _piece = None
+        while _piece == None:
+            _piece = str(input("Quelle piece voulez-vous jouer ? : ")).lower()
+            if _piece in self.pieceListe:
+                return _piece
+            else:
+                return None
+            
+            
 run = True
-window = Window()
 while run:
-    window.DrawBackground()
-    window.DrawMisc()
-    window.DrawMap()
-
-
-    pygame.display.flip()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-            pygame.quit()
-
-pygame.quit()
+    pass

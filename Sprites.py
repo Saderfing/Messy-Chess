@@ -358,7 +358,7 @@ class Game():
     def AddToPieceDict(self, obj:dict):
         for keys,values in obj.items():
             self.dictPiece[keys] = values
-    def GetPieceDict(self):
+    def GetDictPiece(self):
         return self.dictPiece
 
 
