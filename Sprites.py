@@ -364,22 +364,35 @@ class Game():
 
     def update(self):
         _epongeBlanche = self.dictPiece["WhiteSponge"]
+        _epongeNoire = self.dictPiece["BlackSponge"]
         _patateBlanche = self.dictPiece["WhitePatate"]
         _patateNoire = self.dictPiece["BlackPatate"]
         _billyBlanc = self.dictPiece["WhiteBilly"]
+        _billyNoire = self.dictPiece["BlackBilly"]
         _dejavuBlanc = self.dictPiece["WhiteDeja-Vu"]
-
-        _dejavuBlanc.UpLeft(2)
+        _dejavuNoire = self.dictPiece["BlackDeja-Vu"]
 
 map = Map()
 game = Game()
 
 epongeBlanche = Sponge("White", 10, 10, (1,0))
-patateBlanche = Patate("White", 10, 10,(0,2))
-patateNoire = Patate("Black", 10, 10,(0,0))
-billyBlanc = Billy("White", 10, 10, (0,1))
-dejaVuBlanc = DejaVu("White",10,10,(2,3))
-game.AddToPieceDict({epongeBlanche.GetColorName():epongeBlanche, patateBlanche.GetColorName():patateBlanche, patateNoire.GetColorName():patateNoire, billyBlanc.GetColorName():billyBlanc, dejaVuBlanc.GetColorName():dejaVuBlanc})
+epongeNoire = Sponge("Black", 10, 10, (2,3))
+patateBlanche = Patate("White", 10, 10,(0,0))
+patateNoire = Patate("Black", 10, 10,(3,3))
+billyBlanc = Billy("White", 10, 10, (3,0))
+billyNoire = Billy("Black", 10, 10, (0,3))
+dejaVuBlanc = DejaVu("White",10,10,(2,0))
+dejaVuNoire = DejaVu("Black",10,10,(1,3))
+
+game.AddToPieceDict(
+    {epongeBlanche.GetColorName():epongeBlanche, 
+     epongeNoire.GetColorName():epongeNoire, 
+     patateBlanche.GetColorName():patateBlanche, 
+     patateNoire.GetColorName():patateNoire, 
+     billyBlanc.GetColorName():billyBlanc,
+     billyNoire.GetColorName():billyNoire, 
+     dejaVuBlanc.GetColorName():dejaVuBlanc, 
+     dejaVuNoire.GetColorName():dejaVuNoire})
 
 print(dejaVuBlanc.GetColorName())
 print(map)
