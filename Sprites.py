@@ -32,28 +32,13 @@ class Map():
         return self.map
 
     def SetObjectPosition(self, objName:str, newPos:tuple, lastPos=None):
-            if game.isLiving(objName) > 0:
-                if lastPos != None:
-                    self.map[lastPos] = self.EMPTY
-                if newPos in self.map.keys():
-                    self.map[newPos] = objName
-                else:
-                    print("invalid position")
+            if lastPos != None:
+                self.map[lastPos] = self.EMPTY
+            if newPos in self.map.keys():
+                self.map[newPos] = objName
+            else:
+                print("invalid position")
                     
-            if lastPos != None:
-                print(lastPos)
-                self.map[lastPos] = self.EMPTY
-            if newPos in self.map.keys():
-                self.map[newPos] = objName
-            else:
-                print("invalid position")
-            if lastPos != None:
-                print(lastPos)
-                self.map[lastPos] = self.EMPTY
-            if newPos in self.map.keys():
-                self.map[newPos] = objName
-            else:
-                print("invalid position")
 
 
     def IsEmpty(self, pos:tuple):
@@ -328,8 +313,6 @@ class Game():
     def GetPieceDict(self):
         return self.dictPiece
     
-    def isLiving(self, objName:str):
-        return self.dictPiece[objName].GetHp()
 
     def update(self):
         epongeBlanche = self.dictPiece["WhiteSponge"]
@@ -341,17 +324,10 @@ map = Map()
 game = Game()
 
 epongeBlanche = Sponge("White", 10, 10, 1, (0,0))
-epongeBlanche = Sponge("White",10,10,2,(0,1))
 patateBlanche = Patate("White",10,10,(1,1))
 patateNoire = Patate("Black", 10, 10,(2,1))
 
 game.AddToPieceDict({epongeBlanche.GetColorName():epongeBlanche, patateBlanche.GetColorName():patateBlanche, patateNoire.GetColorName():patateNoire})
-eponge = Sponge("White", 10, 10, 1, 1, (2,0))
-print(map)
-patateBlanche = Patate("White",10,10,1,2,(0,0))
-patateNoire = Patate("Black", 10, 10, 2, 2,(1,0))
-map.SetObjectPosition(patateBlanche.GetColorName(), patateBlanche.GetPos())
-map.SetObjectPosition(patateNoire.GetColorName(), patateNoire.GetPos())
-print(map)
+
 game.update()
 print(map)
