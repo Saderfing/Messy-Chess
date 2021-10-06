@@ -35,9 +35,11 @@ class Consol():
         self.turn = 0
         self.pieceListe = ("eponge", "patate", "dejavu", "billy")
         self.action = {"attack": self.MovePiece, "move": self.MovePiece}
+        self.DIR = ("up","down","right","left")
+        self.COLOR = ("white", "black")
         
     def NewRound(self):
-        pieces = Sprites.game.GetPieceDict()
+        pieces = Sprites.game.GetDictPiece()
         turn = None
         while turn is None:
             turn = str(input("Que voulez-vous faire ? : (attack/move): ")).lower()
@@ -48,19 +50,39 @@ class Consol():
         
     def MovePiece(self):
         piece = self.DefPiece()
-        color = self.GetColor()
+        color = self.DefColor()
         dir = self.DefDir()
         if piece in ("patate", "dejavu"):
-            lenght = self.GetColor()
-    
+            dist = self.GetDist()
+        
     def DefDir(self):
         _dir = None
         while _dir is None:
-            _dir = input("Quelle distance ? : ")
-            if type(_dir) is type(int):
+            _dir = str(input(f"Quelle direction ? : {self.DIR}: ")).lower()
+            if _dir in self.DIR:
                 return _dir
             else:
+                print(f"La direction {_dir} n'existe pas")
                 _dir = None
+        
+    def DefDist(self):
+        _dist = None
+        while _dist is None:
+            _dist = input("Quelle distance ? : ")
+            if type(_dist) is type(int):
+                return _dist
+            else:
+                _dist = None
+    
+    def DefColor(self):
+        _color = None
+        while _color is None:
+            _color = str(input(f"Quelle direction ? : {self.COLOR}: ")).lower()
+            if _color in self.COLOR:
+                return _color
+            else:
+                print(f"La direction {_color} n'existe pas")
+                _color = None
     
     def DefPiece(self):
         print(f"Vous pouvez jouez les pièces {self.pieceListe}")
@@ -74,5 +96,7 @@ class Consol():
             
             
 run = True
+consol = Consol()
 while run:
-    pass
+    consol.NewRound()
+    
