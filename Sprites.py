@@ -252,14 +252,13 @@ class Sponge(Piece):
     
     def Attack(self):
         localMap = map.GetMap()
-        attackPosneg= [(x,self.pos[1]) for x in range(-self.range, 0)]
-        attackPospos= [(x, self.pos[1]) for x in range(1, self.range+1)]
-        attackPos = attackPosneg + attackPospos
-    
+        attackPos= [(x,self.pos[1]) for x in range(-self.range,self.range+1)]
+        print(self.pos)
+
 
         for i in attackPos:
-            
-            if i in localMap.keys() and not map.IsEmpty(i):
+
+            if i in localMap.keys() and not map.IsEmpty(i) and not i==self.pos:
                 piece = localMap[i]
                 objPiece = game.GetObjectByColorName(piece)
                 objPiece.Damage(self.strenght)
