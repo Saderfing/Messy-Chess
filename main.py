@@ -18,7 +18,7 @@ class Window:
         self.whitePotato = pygame.image.load("assets/whitePotato.png").convert_alpha()
 
     def DrawMisc(self):
-        pygame.Surface.blit(ref.GetScreen(),game.CHECKERBOARDIMG,(ref.GetWidth()/2 - game.rectCheckerBoard.x,0))
+        pygame.Surface.blit(ref.GetScreen(),window.CHECKERBOARDIMG,(ref.GetWidth()/2 - window.rectCheckerBoard.x,0))
 
     def DrawBackground(self):
         pygame.Surface.blit(ref.GetScreen(),self.bg,(0,0))
@@ -32,11 +32,11 @@ class Window:
 
 
 run = True
-game = Window()
+window = Window()
 while run:
-    game.DrawBackground()
-    game.DrawMisc()
-    game.DrawMap()
+    window.DrawBackground()
+    window.DrawMisc()
+    window.DrawMap()
 
 
     pygame.display.flip()
