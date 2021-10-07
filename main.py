@@ -1,9 +1,8 @@
 import pygame
-from pygame import sprite
 from pygame.mixer import fadeout
 import Sprites
 from Reference import Ref,WIDTH,HEIGHT
-import pygame
+
 
 ref = Ref((WIDTH,HEIGHT))
 
