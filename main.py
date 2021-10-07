@@ -46,7 +46,7 @@ class Consol():
         self.turn = 0
         self.INPUT_TO_INDEX = {"up":0, "down":1, "right":2, "left":3, "attack":5}
         self.PIECELISTE = ("eponge", "patate", "dejavu", "billy")
-        self.ACTION = {"attack": self.__Attack, "move": self.__MovePiece}
+        self.ACTION = {"attack": self.Attack, "move": self.MovePiece}
         self.ACTIONLISTE = ("attack", "move",)
         self.DIR = ("up","down","right","left")
         self.COLOR = ("white", "black")
@@ -68,28 +68,33 @@ class Consol():
                 self.ACTION[turn]()
             else: 
                 print("La fonction n'est pas reconnue")
-        
-    def __Attack(self):
+    
+    def SetTurn(self):
+        self.turn = 1 if self.turn == 0 else 0
+    
+    def Attack(self):
         piece = None
         while piece is None:
             piece = str(input(f"Quelle pièce doit attaquer: {self.PIECELISTE}: ")).lower()
             if piece in self.PIECELISTE:
                 self.OBJECTCOMANDS[piece+self.COLOR[self.turn]][4]
+                self.SetTurn()
             else: 
                 print("Erreur")
                 piece = None
     
-    def __MovePiece(self):
-        piece = self.__DefPiece()
+    def MovePiece(self):
+        piece = self.DefPiece()
         color = self.COLOR[self.turn]
-        dir = self.__DefDir()
+        dir = self.DefDir()
         dist = None
         if piece in ("patate", "dejavu"):
-            dist = self.__DefDist()
+            dist = self.DefDist()
         self.OBJECTCOMANDS[piece+color][dir](dist)
+        self.SetTurn()
         
         
-    def __DefDir(self):
+    def DefDir(self):
         _dir = None
         while _dir is None:
             _dir = str(input(f"Quelle direction ? : {self.DIR}: ")).lower()
@@ -100,7 +105,7 @@ class Consol():
                 _dir = None
         
     
-    def __DefDist(self):
+    def DefDist(self):
         _dist = None
         while _dist is None:
             _dist = int(input("Quelle distance ? : "))
@@ -110,7 +115,7 @@ class Consol():
                 _dist = None
     
 
-    def __DefPiece(self):
+    def DefPiece(self):
         _piece = None
         while _piece == None:
             _piece = str(input(f"Quelle piece voulez-vous jouer ? :{self.PIECELISTE}: ")).lower()

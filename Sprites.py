@@ -80,6 +80,7 @@ class Piece():
 
     def Damage(self, strenght):
         self.hp -= 10*round(random()*strenght)
+        print(self.GetHp())
 
 
 
@@ -112,13 +113,10 @@ class Patate(Piece):
             self.pos = newPos
 
     def Down(self, dist):# déplacement en Y vers le bas
-        print(dist)
         localMap = map.GetMap()
         pos = list(self.pos)
         dist = self.CapDist(dist)
         newPos = (pos[0], pos[1] + dist)
-        print(dist)
-        print(newPos)
         if newPos in localMap.keys() and map.IsEmpty(newPos):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
@@ -172,6 +170,7 @@ class Patate(Piece):
                     objPiece.Damage(self.strenght)
                     print("qui c qu'il attack", piece)
                     if objPiece.GetHp() <= 0:
+                        print(f"{self.GetColorName()} est éliminé")
                         objPiece.SetKill()
 
 class Billy(Piece): 
@@ -282,6 +281,7 @@ class Sponge(Piece):
                 objPiece.Damage(self.strenght)
                 print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
+                    print(f"{self.GetColorName()} est éliminé")
                     objPiece.SetKill()
 
 class DejaVu(Piece):
@@ -345,6 +345,7 @@ class DejaVu(Piece):
                 objPiece.Damage(self.strenght)
                 print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
+                    print(f"{self.GetColorName()} est éliminé")
                     objPiece.SetKill()
 
 class Game():
