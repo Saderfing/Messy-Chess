@@ -124,9 +124,6 @@ class Consol():
             else:
                 return None
             
-        
-        
-        
 run = True
 consol = Consol()
 window = Window()
@@ -142,6 +139,3 @@ while run:
         if event.type == pygame.QUIT:
             run = False
             pygame.quit()
-    print(Sprites.map)
-    consol.NewRound()
-    

@@ -155,9 +155,8 @@ class Patate(Piece):
                     objPiece = game.GetObjectByColorName(piece)
                     if objPiece.GetColor() != self.color:
                         objPiece.Damage(self.strenght)
-                    print("qui c qu'il attack", piece)
                     if objPiece.GetHp() <= 0:
-                        print(f"{self.GetColorName()} est éliminé")
+                        print(f"{objPiece.GetColorName()} est éliminé")
                         objPiece.SetKill()
 
 class Billy(Piece): 
@@ -213,11 +212,9 @@ class Billy(Piece):
         other = game.GetObjectByColorName(localMap[attackPos])
         if other.GetColor() != self.GetColor():
               other.Damage(self.strenght)
-              print("qui c qu'il attack", other.GetColorName())
               if other.GetHp() <= 0:
-                        print(f"{self.GetColorName()} est éliminé")
+                        print(f"{other.GetColorName()} est éliminé")
                         other.SetKill()
-                   
         else:
             print("nothing to attack")
 
@@ -275,7 +272,7 @@ class Sponge(Piece):
                     objPiece.Damage(self.strenght)
                 print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
-                    print(f"{self.GetColorName()} est éliminé")
+                    print(f"{objPiece.GetColorName()} est éliminé")
                     objPiece.SetKill()
 
 class DejaVu(Piece):
@@ -340,7 +337,7 @@ class DejaVu(Piece):
                     objPiece.Damage(self.strenght)
                 print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
-                    print(f"{self.GetColorName()} est éliminé")
+                    print(f"{objPiece.GetColorName()} est éliminé")
                     objPiece.SetKill()
 
 class Game():
@@ -372,14 +369,14 @@ class Game():
 map = Map()
 game = Game()
 
-epongeBlanche = Sponge("White", 10, 10, (1,0))
-epongeNoire = Sponge("Black", 10, 10, (2,3))
-patateBlanche = Patate("White", 10, 10,(0,0))
-patateNoire = Patate("Black", 10, 10,(3,3))
-billyBlanc = Billy("White", 10, 10, (3,0))
-billyNoire = Billy("Black", 10, 10, (0,3))
-dejaVuBlanc = DejaVu("White",10,10,(2,0))
-dejaVuNoire = DejaVu("Black",10,10,(1,3))
+epongeBlanche = Sponge("White", 10, 2, (1,0))
+epongeNoire = Sponge("Black", 10, 2, (2,3))
+patateBlanche = Patate("White", 10, 5, (0,0))
+patateNoire = Patate("Black", 10, 5, (3,3))
+billyBlanc = Billy("White", 5, 9, (3,0))
+billyNoire = Billy("Black", 5, 9, (0,3))
+dejaVuBlanc = DejaVu("White", 10, 3, (2,0))
+dejaVuNoire = DejaVu("Black", 10, 3, (1,3))
 
 game.AddToPieceDict(
     {epongeBlanche.GetColorName():epongeBlanche, 
