@@ -58,7 +58,7 @@ class Consol():
             if turn in self.ACTION.keys():
                 self.ACTION[turn]()
             else: 
-                print("La fonction n'est pas reconnue, taper help pour en voir toute les commandes")
+                print("La fonction n'est pas reconnue, taper help pour voir toutes les commandes")
         
     def __MovePiece(self):
         piece = self.__DefPiece()
@@ -90,12 +90,11 @@ class Consol():
             else:
                 _dist = None
     
-    
+
     def __DefPiece(self):
-        print(f"Vous pouvez jouez les pièces {self.PIECELISTE}")
         _piece = None
         while _piece == None:
-            _piece = str(input("Quelle piece voulez-vous jouer ? : ")).lower()
+            _piece = str(input(f"Quelle piece voulez-vous jouer ? :{self.PIECELISTE}: ")).lower()
             if _piece in self.PIECELISTE:
                 return _piece
             else:
