@@ -5,7 +5,7 @@ import Sprites
 from Reference import Ref,WIDTH,HEIGHT
 import pygame
 
-#ref = Ref((WIDTH,HEIGHT))
+ref = Ref((WIDTH,HEIGHT))
 
 
 class Window:
@@ -16,7 +16,16 @@ class Window:
 
         self.bg = pygame.image.load("assets/bg.png").convert()
 
+        self.whiteSponge = pygame.image.load("assets/whiteEponge.png").convert_alpha()
+        self.blackSponge = pygame.image.load("assets/blackEponge.png").convert_alpha()
         self.whitePotato = pygame.image.load("assets/whitePotato.png").convert_alpha()
+        self.blackPotato = pygame.image.load("assets/blackPotato.png").convert_alpha()
+        self.whiteBilly = pygame.image.load("assets/whitBilly.png").convert_alpha()
+        self.blackBilly = pygame.image.load("assets/blackBilly.png").convert_alpha()
+        self.whiteDejaVu = pygame.image.load("assets/whiteDejavu.png").convert_alpha()
+        self.blackDejaVu = pygame.image.load("assets/blackDejaVu.png").convert_alpha()
+
+        self.dictImgPiece = {"WhiteSponge":self.whiteSponge, "BlackSponge":self.blackSponge, "WhitePatate":self.whitePotato, "BlackPatate":self.blackPotato, "WhiteBilly":self.whiteBilly, "BlackBilly": self.blackBilly,"WhiteDeja-Vu":self.whiteDejaVu, "BlackDeja-Vu":self.blackDejaVu}
 
     def DrawMisc(self):
         pygame.Surface.blit(ref.GetScreen(),window.CHECKERBOARDIMG,(ref.GetWidth()/2 - window.rectCheckerBoard.x,0))
@@ -29,7 +38,8 @@ class Window:
         for i in localMap.keys():
             if Sprites.map.IsEmpty(i):
                 pass
-            else:pygame.Surface.blit(ref.SCREEN, self.whitePotato, (280+i[0]*180, i[1]*180))
+            else:
+                pygame.Surface.blit(ref.SCREEN, self.dictImgPiece[localMap[i]], (280+i[0]*180, i[1]*180))
 
 class Consol():
     def __init__(self):
@@ -108,7 +118,19 @@ class Consol():
         
 run = True
 consol = Consol()
+window = Window()
 while run:
+    window.DrawBackground()
+    window.DrawMisc()
+    window.DrawMap()
+
+
+
+    pygame.display.flip()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+            pygame.quit()
     print(Sprites.map)
     consol.NewRound()
     
