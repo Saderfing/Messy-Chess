@@ -80,13 +80,12 @@ class Consol():
                 print(f"La direction {_dir} n'existe pas")
                 _dir = None
         
-
     
     def __DefDist(self):
         _dist = None
         while _dist is None:
             _dist = input("Quelle distance ? : ")
-            if type(_dist) is type(int):
+            if type(_dist) is int:
                 return _dist
             else:
                 _dist = None

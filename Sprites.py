@@ -171,7 +171,7 @@ class Patate(Piece):
                     if objPiece.GetHp() <= 0:
                         objPiece.SetKill()
 
-class Billy(Piece):
+class Billy(Piece): 
     def __init__(self, color, hp, strenght, pos):
         self.name = "Billy"
         self.speed = 3
