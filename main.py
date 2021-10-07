@@ -84,7 +84,7 @@ class Consol():
     def __DefDist(self):
         _dist = None
         while _dist is None:
-            _dist = input("Quelle distance ? : ")
+            _dist = int(input("Quelle distance ? : "))
             if _dist in (0, 1, 2, 3):
                 return _dist
             else:
