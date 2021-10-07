@@ -108,7 +108,7 @@ class Consol():
         _dist = None
         while _dist is None:
             _dist = int(input("Quelle distance ? : "))
-            if _dist in (0, 1, 2, 3):
+            if type(_dist) is int:
                 return _dist
             else:
                 _dist = None
@@ -131,7 +131,8 @@ while run:
     window.DrawMisc()
     window.DrawMap()
 
-
+    print(Sprites.map)
+    consol.NewRound()
 
     pygame.display.flip()
     for event in pygame.event.get():

@@ -158,6 +158,7 @@ class Patate(Piece):
                     if objPiece.GetHp() <= 0:
                         print(f"{objPiece.GetColorName()} est éliminé")
                         objPiece.SetKill()
+                        game.CheckColor(self.color)
 
 class Billy(Piece): 
     def __init__(self, color, hp, strenght, pos):
@@ -215,8 +216,8 @@ class Billy(Piece):
               if other.GetHp() <= 0:
                         print(f"{other.GetColorName()} est éliminé")
                         other.SetKill()
-        else:
-            print("nothing to attack")
+                        game.CheckColor(self.color)
+
 
 class Sponge(Piece):
     def __init__(self, color: str, hp: int, strenght: int, pos:tuple):
@@ -270,10 +271,11 @@ class Sponge(Piece):
                 objPiece = game.GetObjectByColorName(piece)
                 if objPiece.GetColor() != self.color:
                     objPiece.Damage(self.strenght)
-                print("qui c qu'il attack", piece)
+                    print(objPiece.GetColorName())
                 if objPiece.GetHp() <= 0:
                     print(f"{objPiece.GetColorName()} est éliminé")
                     objPiece.SetKill()
+                    game.CheckColor(self.color)
 
 class DejaVu(Piece):
     def __init__(self, color: str, hp: int, strenght: int, pos: tuple):
@@ -339,10 +341,12 @@ class DejaVu(Piece):
                 if objPiece.GetHp() <= 0:
                     print(f"{objPiece.GetColorName()} est éliminé")
                     objPiece.SetKill()
+                    game.CheckColor(self.color)
 
 class Game():
     def __init__(self):
         self.dictPiece = dict()
+        self.COLOR = {"White":4, "Black":4}
 
     def GetObjectByColorName(self, colorName:str):
         if colorName in self.dictPiece:
@@ -352,9 +356,15 @@ class Game():
     def AddToPieceDict(self, obj:dict):
         for keys,values in obj.items():
             self.dictPiece[keys] = values
+            
     def GetDictPiece(self):
         return self.dictPiece
 
+    def CheckColor(self, color):
+        if self.COLOR[color] <= 0:
+            print(f"Les {self.COLOR[color]} ont perdu =(")
+            exit()
+            
 
     def update(self):
         _epongeBlanche = self.dictPiece["WhiteSponge"]
