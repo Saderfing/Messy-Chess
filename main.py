@@ -41,11 +41,11 @@ class Consol():
         self.DIR = ("up","down","right","left")
         self.COLOR = ("white", "black")
         self.OBJECTCOMANDS = {"epongewhite":[Sprites.epongeBlanche.Up,Sprites.epongeBlanche.Down,Sprites.epongeBlanche.Left,Sprites.epongeBlanche.Right,Sprites.epongeBlanche.Attack], 
-                        "epongenoire":[Sprites.epongeNoire.Up,Sprites.epongeNoire.Down,Sprites.epongeNoire.Left,Sprites.epongeNoire.Right,Sprites.epongeNoire.Attack],
-                        "patateblanche":[Sprites.patateBlanche.Up,Sprites.patateBlanche.Down,Sprites.patateBlanche.Left,Sprites.patateBlanche.Right,Sprites.patateBlanche.Attack], 
-                        "patatenoire":[Sprites.patateNoire.Up,Sprites.patateNoire.Down,Sprites.patateNoire.Left,Sprites.patateNoire.Right,Sprites.patateNoire.Attack], 
-                        "billyblanc":[Sprites.billyBlanc.Up,Sprites.billyBlanc.Down,Sprites.billyBlanc.Left,Sprites.billyBlanc.Right,Sprites.billyBlanc.Attack],
-                        "billynoire":[Sprites.billyNoire.Up,Sprites.billyNoire.Down,Sprites.billyNoire.Left,Sprites.billyNoire.Right,Sprites.billyNoire.Attack],
+                        "epongeblack":[Sprites.epongeNoire.Up,Sprites.epongeNoire.Down,Sprites.epongeNoire.Left,Sprites.epongeNoire.Right,Sprites.epongeNoire.Attack],
+                        "patatewhite":[Sprites.patateBlanche.Up,Sprites.patateBlanche.Down,Sprites.patateBlanche.Left,Sprites.patateBlanche.Right,Sprites.patateBlanche.Attack], 
+                        "patatblack":[Sprites.patateNoire.Up,Sprites.patateNoire.Down,Sprites.patateNoire.Left,Sprites.patateNoire.Right,Sprites.patateNoire.Attack], 
+                        "billywhite":[Sprites.billyBlanc.Up,Sprites.billyBlanc.Down,Sprites.billyBlanc.Left,Sprites.billyBlanc.Right,Sprites.billyBlanc.Attack],
+                        "billyblack":[Sprites.billyNoire.Up,Sprites.billyNoire.Down,Sprites.billyNoire.Left,Sprites.billyNoire.Right,Sprites.billyNoire.Attack],
                         "dejavuwhite":[Sprites.dejaVuBlanc.UpLeft,Sprites.dejaVuBlanc.UpRight,Sprites.dejaVuBlanc.DownLeft,Sprites.dejaVuBlanc.DownRight,Sprites.dejaVuBlanc.Attack],
                         "dejavublack":[Sprites.dejaVuNoire.UpLeft,Sprites.dejaVuNoire.UpRight,Sprites.dejaVuNoire.DownLeft,Sprites.dejaVuNoire.DownRight,Sprites.dejaVuNoire.Attack] }
         
@@ -85,7 +85,7 @@ class Consol():
         _dist = None
         while _dist is None:
             _dist = input("Quelle distance ? : ")
-            if type(_dist) is int:
+            if _dist in (0, 1, 2, 3):
                 return _dist
             else:
                 _dist = None
