@@ -178,7 +178,7 @@ class Billy(Piece):
         super().__init__(self.name, color, hp, strenght, 1,pos)
         self.moveDir = {0: self.Up, 1: self.Down, 2: self.Right, 3: self.Left}
 
-    def Up(self): # déplacement en Y vers le haut
+    def Up(self, dist=None): # déplacement en Y vers le haut
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0], pos[1] - pos[1])
@@ -188,7 +188,7 @@ class Billy(Piece):
         else:
             self.Attack(newPos)
 
-    def Down(self):# déplacement en Y vers le bas
+    def Down(self, dist=None):# déplacement en Y vers le bas
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0], self.speed)
@@ -198,7 +198,7 @@ class Billy(Piece):
         else:
             self.Attack(newPos)
 
-    def Right(self):# déplacement en X
+    def Right(self, dist=None):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (self.speed, pos[1])
@@ -208,7 +208,7 @@ class Billy(Piece):
         else:
             self.Attack(newPos)
 
-    def Left(self):# déplacement en X
+    def Left(self, dist=None):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0] - pos[0], pos[1])
@@ -233,7 +233,7 @@ class Sponge(Piece):
         self.range = 1
         super().__init__(self.name, color, hp, strenght, range, pos)
 
-    def Up(self): # déplacement en Y vers le haut
+    def Up(self, dist=None): # déplacement en Y vers le haut
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0], pos[1] - self.speed)
@@ -241,7 +241,7 @@ class Sponge(Piece):
             map.SetObjectPosition(self.GetColorName(), newPos,self.pos)
             self.pos = newPos
 
-    def Down(self):# déplacement en Y vers le bas
+    def Down(self, dist=None):# déplacement en Y vers le bas
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos =  (pos[0], pos[1] + self.speed)
@@ -249,7 +249,7 @@ class Sponge(Piece):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
-    def Right(self):# déplacement en X
+    def Right(self, dist=None):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0] + self.speed, pos[1])
@@ -257,7 +257,7 @@ class Sponge(Piece):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
-    def Left(self):# déplacement en X
+    def Left(self, dist=None):# déplacement en X
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0] - self.speed, pos[1])

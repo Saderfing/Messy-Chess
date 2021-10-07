@@ -1,4 +1,5 @@
 import pygame
+from pygame import sprite
 from pygame.mixer import fadeout
 import Sprites
 from Reference import Ref,WIDTH,HEIGHT
@@ -33,39 +34,55 @@ class Window:
 class Consol():
     def __init__(self):
         self.turn = 0
-        self.pieceListe = ("eponge", "patate", "dejavu", "billy")
-        self.action = {"attack": self.MovePiece, "move": self.MovePiece}
+        self.INPUT_TO_INDEX = {"up":0, "down":1, "right":2, "left":3, "attack":5}
+        self.PIECELISTE = ("eponge", "patate", "dejavu", "billy")
+        self.ACTION = {"attack": self.__MovePiece, "move": self.__MovePiece, "help":self.Help}
+        self.ACTIONLISTE = ("attack", "move", "help",)
         self.DIR = ("up","down","right","left")
         self.COLOR = ("white", "black")
+        self.OBJECTCOMANDS = {"epongewhite":[Sprites.epongeBlanche.Up,Sprites.epongeBlanche.Down,Sprites.epongeBlanche.Left,Sprites.epongeBlanche.Right,Sprites.epongeBlanche.Attack], 
+                        "epongenoire":[Sprites.epongeNoire.Up,Sprites.epongeNoire.Down,Sprites.epongeNoire.Left,Sprites.epongeNoire.Right,Sprites.epongeNoire.Attack],
+                        "patateblanche":[Sprites.patateBlanche.Up,Sprites.patateBlanche.Down,Sprites.patateBlanche.Left,Sprites.patateBlanche.Right,Sprites.patateBlanche.Attack], 
+                        "patatenoire":[Sprites.patateNoire.Up,Sprites.patateNoire.Down,Sprites.patateNoire.Left,Sprites.patateNoire.Right,Sprites.patateNoire.Attack], 
+                        "billyblanc":[Sprites.billyBlanc.Up,Sprites.billyBlanc.Down,Sprites.billyBlanc.Left,Sprites.billyBlanc.Right,Sprites.billyBlanc.Attack],
+                        "billynoire":[Sprites.billyNoire.Up,Sprites.billyNoire.Down,Sprites.billyNoire.Left,Sprites.billyNoire.Right,Sprites.billyNoire.Attack],
+                        "dejavuwhite":[Sprites.dejaVuBlanc.UpLeft,Sprites.dejaVuBlanc.UpRight,Sprites.dejaVuBlanc.DownLeft,Sprites.dejaVuBlanc.DownRight,Sprites.dejaVuBlanc.Attack],
+                        "dejavublack":[Sprites.dejaVuNoire.UpLeft,Sprites.dejaVuNoire.UpRight,Sprites.dejaVuNoire.DownLeft,Sprites.dejaVuNoire.DownRight,Sprites.dejaVuNoire.Attack] }
         
     def NewRound(self):
+        print(f"Nouveau tour, au {self.COLOR[self.turn]} de jouer")
         pieces = Sprites.game.GetDictPiece()
         turn = None
         while turn is None:
-            turn = str(input("Que voulez-vous faire ? : (attack/move): ")).lower()
-            if turn in self.action.keys():
-                self.action[turn]()
+            turn = str(input(f"Que voulez-vous faire ? : {self.ACTIONLISTE}: ")).lower()
+            if turn in self.ACTION.keys():
+                self.ACTION[turn]()
             else: 
-                print("la fonction n'est pas reconnue")
+                print("La fonction n'est pas reconnue, taper help pour en voir toute les commandes")
         
-    def MovePiece(self):
-        piece = self.DefPiece()
-        color = self.DefColor()
-        dir = self.DefDir()
+    def __MovePiece(self):
+        piece = self.__DefPiece()
+        color = self.COLOR[self.turn]
+        dir = self.__DefDir()
+        dist = None
         if piece in ("patate", "dejavu"):
-            dist = self.GetDist()
+            dist = self.__DefDist()
+        self.OBJECTCOMANDS[piece+color][dir](dist)
         
-    def DefDir(self):
+        
+    def __DefDir(self):
         _dir = None
         while _dir is None:
             _dir = str(input(f"Quelle direction ? : {self.DIR}: ")).lower()
             if _dir in self.DIR:
-                return _dir
+                return self.INPUT_TO_INDEX[_dir]
             else:
                 print(f"La direction {_dir} n'existe pas")
                 _dir = None
         
-    def DefDist(self):
+
+    
+    def __DefDist(self):
         _dist = None
         while _dist is None:
             _dist = input("Quelle distance ? : ")
@@ -74,29 +91,25 @@ class Consol():
             else:
                 _dist = None
     
-    def DefColor(self):
-        _color = None
-        while _color is None:
-            _color = str(input(f"Quelle direction ? : {self.COLOR}: ")).lower()
-            if _color in self.COLOR:
-                return _color
-            else:
-                print(f"La direction {_color} n'existe pas")
-                _color = None
     
-    def DefPiece(self):
-        print(f"Vous pouvez jouez les pièces {self.pieceListe}")
+    def __DefPiece(self):
+        print(f"Vous pouvez jouez les pièces {self.PIECELISTE}")
         _piece = None
         while _piece == None:
             _piece = str(input("Quelle piece voulez-vous jouer ? : ")).lower()
-            if _piece in self.pieceListe:
+            if _piece in self.PIECELISTE:
                 return _piece
             else:
                 return None
             
-            
+    def Help(self):
+        return "Non"
+        
+        
+        
 run = True
 consol = Consol()
 while run:
+    print(Sprites.map)
     consol.NewRound()
     
