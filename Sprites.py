@@ -153,21 +153,8 @@ class Patate(Piece):
                 if i in localMap and not map.IsEmpty(i):
                     piece = localMap[i]
                     objPiece = game.GetObjectByColorName(piece)
-                    objPiece.Damage(self.strenght)
-                    print("qui c qu'il attack", piece)
-
-            localMap = map.GetMap()
-            attackPosList = []
-            attackPosList.append((self.pos[0]+self.range,self.pos[1]))
-            attackPosList.append((self.pos[0]-self.range,self.pos[1]))
-            attackPosList.append((self.pos[0],self.pos[1]-self.range))
-            attackPosList.append((self.pos[0],self.pos[1]+self.range))
-
-            for i in attackPosList:
-                if i in localMap and not map.IsEmpty(i):
-                    piece = localMap[i]
-                    objPiece = game.GetObjectByColorName(piece)
-                    objPiece.Damage(self.strenght)
+                    if objPiece.GetColor() != self.color:
+                        objPiece.Damage(self.strenght)
                     print("qui c qu'il attack", piece)
                     if objPiece.GetHp() <= 0:
                         print(f"{self.GetColorName()} est éliminé")
@@ -218,13 +205,19 @@ class Billy(Piece):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
         else:
-            self.Attack((pos[0] - pos[0], pos[1]))
+            self.Attack(newPos)
 
     def Attack(self, attackPos:tuple):
         localMap = map.GetMap()
+
         other = game.GetObjectByColorName(localMap[attackPos])
         if other.GetColor() != self.GetColor():
-            print("attack", attackPos)
+              other.Damage(self.strenght)
+              print("qui c qu'il attack", other.GetColorName())
+              if other.GetHp() <= 0:
+                        print(f"{self.GetColorName()} est éliminé")
+                        other.SetKill()
+                   
         else:
             print("nothing to attack")
 
@@ -278,7 +271,8 @@ class Sponge(Piece):
             if i in localMap.keys() and not map.IsEmpty(i) and not i==self.pos:
                 piece = localMap[i]
                 objPiece = game.GetObjectByColorName(piece)
-                objPiece.Damage(self.strenght)
+                if objPiece.GetColor() != self.color:
+                    objPiece.Damage(self.strenght)
                 print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
                     print(f"{self.GetColorName()} est éliminé")
@@ -342,7 +336,8 @@ class DejaVu(Piece):
             if i in localMap.keys() and not map.IsEmpty(i) and not i==self.pos:
                 piece = localMap[i]
                 objPiece = game.GetObjectByColorName(piece)
-                objPiece.Damage(self.strenght)
+                if objPiece.GetColor() != self.color:
+                    objPiece.Damage(self.strenght)
                 print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
                     print(f"{self.GetColorName()} est éliminé")
