@@ -237,7 +237,7 @@ class Sponge(Piece):
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0], pos[1] - self.speed)
-        if pos[1] >= 0 and map.IsEmpty(newPos):
+        if newPos in localMap.keys() and map.IsEmpty(newPos):
             map.SetObjectPosition(self.GetColorName(), newPos,self.pos)
             self.pos = newPos
 
@@ -245,7 +245,7 @@ class Sponge(Piece):
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos =  (pos[0], pos[1] + self.speed)
-        if pos[1] < 3 and map.IsEmpty(newPos):
+        if newPos in localMap.keys() and map.IsEmpty(newPos):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
@@ -253,7 +253,7 @@ class Sponge(Piece):
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0] + self.speed, pos[1])
-        if pos[0] < 3 and map.IsEmpty(newPos):
+        if newPos in localMap.keys() and map.IsEmpty(newPos):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
@@ -261,7 +261,7 @@ class Sponge(Piece):
         localMap = map.GetMap()
         pos = list(self.pos)
         newPos = (pos[0] - self.speed, pos[1])
-        if pos[0] >= 0 and map.IsEmpty(newPos):
+        if newPos in localMap.keys() and map.IsEmpty(newPos):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
 
@@ -394,8 +394,3 @@ game.AddToPieceDict(
      dejaVuBlanc.GetColorName():dejaVuBlanc, 
      dejaVuNoire.GetColorName():dejaVuNoire})
 
-print(dejaVuBlanc.GetColorName())
-print(map)
-game.update()
-
-print(map)
