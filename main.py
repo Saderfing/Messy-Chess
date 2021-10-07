@@ -46,8 +46,8 @@ class Consol():
         self.turn = 0
         self.INPUT_TO_INDEX = {"up":0, "down":1, "right":2, "left":3, "attack":5}
         self.PIECELISTE = ("eponge", "patate", "dejavu", "billy")
-        self.ACTION = {"attack": self.__MovePiece, "move": self.__MovePiece, "help":self.Help}
-        self.ACTIONLISTE = ("attack", "move", "help",)
+        self.ACTION = {"attack": self.__Attack, "move": self.__MovePiece}
+        self.ACTIONLISTE = ("attack", "move",)
         self.DIR = ("up","down","right","left")
         self.COLOR = ("white", "black")
         self.OBJECTCOMANDS = {"epongewhite":[Sprites.epongeBlanche.Up,Sprites.epongeBlanche.Down,Sprites.epongeBlanche.Left,Sprites.epongeBlanche.Right,Sprites.epongeBlanche.Attack], 
@@ -61,15 +61,24 @@ class Consol():
         
     def NewRound(self):
         print(f"Nouveau tour, au {self.COLOR[self.turn]} de jouer")
-        pieces = Sprites.game.GetDictPiece()
         turn = None
         while turn is None:
             turn = str(input(f"Que voulez-vous faire ? : {self.ACTIONLISTE}: ")).lower()
             if turn in self.ACTION.keys():
                 self.ACTION[turn]()
             else: 
-                print("La fonction n'est pas reconnue, taper help pour voir toutes les commandes")
+                print("La fonction n'est pas reconnue")
         
+    def __Attack(self):
+        piece = None
+        while piece is None:
+            piece = str(input(f"Quelle pièce doit attaquer: {self.PIECELISTE}: ")).lower()
+            if piece in self.PIECELISTE:
+                self.OBJECTCOMANDS[piece+self.COLOR[self.turn]][4]
+            else: 
+                print("Erreur")
+                piece = None
+    
     def __MovePiece(self):
         piece = self.__DefPiece()
         color = self.COLOR[self.turn]
@@ -110,8 +119,6 @@ class Consol():
             else:
                 return None
             
-    def Help(self):
-        return "Non"
         
         
         

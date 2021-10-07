@@ -347,8 +347,6 @@ class DejaVu(Piece):
                 if objPiece.GetHp() <= 0:
                     objPiece.SetKill()
 
-
-
 class Game():
     def __init__(self):
         self.dictPiece = dict()
