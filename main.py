@@ -1,58 +1,58 @@
-import pygame
-from pygame.mixer import fadeout
+#import pygame
+#from pygame.mixer import fadeout
 import Sprites
-from Reference import Ref,WIDTH,HEIGHT
+#rom Reference import Ref,WIDTH,HEIGHT
 
 
-ref = Ref((WIDTH,HEIGHT))
+#ref = Ref((WIDTH,HEIGHT))
 
 
-class Window:
-    def __init__(self):
-        self.CHECKERBOARDIMG = pygame.image.load("assets/checkerboard.png").convert()
-        self.rectCheckerBoard = self.CHECKERBOARDIMG.get_rect()
-        self.rectCheckerBoard.x = self.rectCheckerBoard.width/2
+# class Window:
+#    def __init__(self):
+#        self.CHECKERBOARDIMG = pygame.image.load("assets/checkerboard.png").convert()
+#        self.rectCheckerBoard = self.CHECKERBOARDIMG.get_rect()
+#        self.rectCheckerBoard.x = self.rectCheckerBoard.width/2
+#
+#        self.bg = pygame.image.load("assets/bg.png").convert()
+#
+#        self.whiteSponge = pygame.image.load("assets/whiteEponge.png").convert_alpha()
+#        self.blackSponge = pygame.image.load("assets/blackEponge.png").convert_alpha()
+#        self.whitePotato = pygame.image.load("assets/whitePotato.png").convert_alpha()
+#        self.blackPotato = pygame.image.load("assets/blackPotato.png").convert_alpha()
+#        self.whiteBilly = pygame.image.load("assets/whitBilly.png").convert_alpha()
+#        self.blackBilly = pygame.image.load("assets/blackBilly.png").convert_alpha()
+#        self.whiteDejaVu = pygame.image.load("assets/whiteDejavu.png").convert_alpha()
+#        self.blackDejaVu = pygame.image.load("assets/blackDejaVu.png").convert_alpha()
+#
+#        self.dictImgPiece = {"WhiteSponge":self.whiteSponge, "BlackSponge":self.blackSponge, "WhitePatate":self.whitePotato, "BlackPatate":self.blackPotato, "WhiteBilly":self.whiteBilly, "BlackBilly": self.blackBilly,"WhiteDeja-Vu":self.whiteDejaVu, "BlackDeja-Vu":self.blackDejaVu}
 
-        self.bg = pygame.image.load("assets/bg.png").convert()
-
-        self.whiteSponge = pygame.image.load("assets/whiteEponge.png").convert_alpha()
-        self.blackSponge = pygame.image.load("assets/blackEponge.png").convert_alpha()
-        self.whitePotato = pygame.image.load("assets/whitePotato.png").convert_alpha()
-        self.blackPotato = pygame.image.load("assets/blackPotato.png").convert_alpha()
-        self.whiteBilly = pygame.image.load("assets/whitBilly.png").convert_alpha()
-        self.blackBilly = pygame.image.load("assets/blackBilly.png").convert_alpha()
-        self.whiteDejaVu = pygame.image.load("assets/whiteDejavu.png").convert_alpha()
-        self.blackDejaVu = pygame.image.load("assets/blackDejaVu.png").convert_alpha()
-
-        self.dictImgPiece = {"WhiteSponge":self.whiteSponge, "BlackSponge":self.blackSponge, "WhitePatate":self.whitePotato, "BlackPatate":self.blackPotato, "WhiteBilly":self.whiteBilly, "BlackBilly": self.blackBilly,"WhiteDeja-Vu":self.whiteDejaVu, "BlackDeja-Vu":self.blackDejaVu}
-
-    def DrawMisc(self):
-        pygame.Surface.blit(ref.GetScreen(),window.CHECKERBOARDIMG,(ref.GetWidth()/2 - window.rectCheckerBoard.x,0))
-
-    def DrawBackground(self):
-        pygame.Surface.blit(ref.GetScreen(),self.bg,(0,0))
-
-    def DrawMap(self):
-        localMap = Sprites.map.GetMap()
-        for i in localMap.keys():
-            if Sprites.map.IsEmpty(i):
-                pass
-            else:
-                pygame.Surface.blit(ref.SCREEN, self.dictImgPiece[localMap[i]], (280+i[0]*180, i[1]*180))
+#   def DrawMisc(self):
+#        pygame.Surface.blit(ref.GetScreen(),window.CHECKERBOARDIMG,(ref.GetWidth()/2 - window.rectCheckerBoard.x,0))
+#
+#    def DrawBackground(self):
+#        pygame.Surface.blit(ref.GetScreen(),self.bg,(0,0))
+#
+#    def DrawMap(self):
+#        localMap = Sprites.map.GetMap()
+#        for i in localMap.keys():
+#            if Sprites.map.IsEmpty(i):
+#                pass
+#            else:
+#                pygame.Surface.blit(ref.SCREEN, self.dictImgPiece[localMap[i]], (280+i[0]*180, i[1]*180))
 
 class Consol():
     def __init__(self):
         self.turn = 0
         self.INPUT_TO_INDEX = {"up":0, "down":1, "right":2, "left":3, "attack":5}
         self.PIECELISTE = ("eponge", "patate", "dejavu", "billy")
-        self.ACTION = {"attack": self.Attack, "move": self.MovePiece}
-        self.ACTIONLISTE = ("attack", "move",)
+        self.ACTION = {"attack": self.Attack, "move": self.MovePiece, "exit":exit}
+        self.ACTIONLISTE = ("attack", "move", "exit")
         self.DIR = ("up","down","right","left")
         self.COLOR = ("white", "black")
         self.OBJECTCOMANDS = {"epongewhite":[Sprites.epongeBlanche.Up,Sprites.epongeBlanche.Down,Sprites.epongeBlanche.Left,Sprites.epongeBlanche.Right,Sprites.epongeBlanche.Attack], 
                         "epongeblack":[Sprites.epongeNoire.Up,Sprites.epongeNoire.Down,Sprites.epongeNoire.Left,Sprites.epongeNoire.Right,Sprites.epongeNoire.Attack],
                         "patatewhite":[Sprites.patateBlanche.Up,Sprites.patateBlanche.Down,Sprites.patateBlanche.Left,Sprites.patateBlanche.Right,Sprites.patateBlanche.Attack], 
-                        "patatblack":[Sprites.patateNoire.Up,Sprites.patateNoire.Down,Sprites.patateNoire.Left,Sprites.patateNoire.Right,Sprites.patateNoire.Attack], 
+                        "patateblack":[Sprites.patateNoire.Up,Sprites.patateNoire.Down,Sprites.patateNoire.Left,Sprites.patateNoire.Right,Sprites.patateNoire.Attack], 
                         "billywhite":[Sprites.billyBlanc.Up,Sprites.billyBlanc.Down,Sprites.billyBlanc.Left,Sprites.billyBlanc.Right,Sprites.billyBlanc.Attack],
                         "billyblack":[Sprites.billyNoire.Up,Sprites.billyNoire.Down,Sprites.billyNoire.Left,Sprites.billyNoire.Right,Sprites.billyNoire.Attack],
                         "dejavuwhite":[Sprites.dejaVuBlanc.UpLeft,Sprites.dejaVuBlanc.UpRight,Sprites.dejaVuBlanc.DownLeft,Sprites.dejaVuBlanc.DownRight,Sprites.dejaVuBlanc.Attack],
@@ -76,7 +76,7 @@ class Consol():
         while piece is None:
             piece = str(input(f"Quelle pièce doit attaquer: {self.PIECELISTE}: ")).lower()
             if piece in self.PIECELISTE:
-                self.OBJECTCOMANDS[piece+self.COLOR[self.turn]][4]
+                self.OBJECTCOMANDS[piece+self.COLOR[self.turn]][4]()
                 self.SetTurn()
             else: 
                 print("Erreur")
@@ -118,24 +118,24 @@ class Consol():
         _piece = None
         while _piece == None:
             _piece = str(input(f"Quelle piece voulez-vous jouer ? :{self.PIECELISTE}: ")).lower()
-            if _piece in self.PIECELISTE:
+            if _piece in ("eponge", "patate", "dejavu", "billy"):
                 return _piece
             else:
                 return None
             
 run = True
 consol = Consol()
-window = Window()
+#window = Window()
 while run:
-    window.DrawBackground()
-    window.DrawMisc()
-    window.DrawMap()
+    #window.DrawBackground()
+    #window.DrawMisc()
+    #window.DrawMap()
 
     print(Sprites.map)
     consol.NewRound()
 
-    pygame.display.flip()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-            pygame.quit()
+    #pygame.display.flip()
+    #for event in pygame.event.get():
+    #    if event.type == pygame.QUIT:
+    #        run = False
+    #        pygame.quit()

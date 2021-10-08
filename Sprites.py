@@ -79,10 +79,8 @@ class Piece():
         return self.hp
 
     def Damage(self, strenght):
-        self.hp -= 10*round(random()*strenght)
+        self.hp -= round(random()*strenght)
         print(self.GetHp())
-
-
 
     def GetColorName(self):
         return self.color+self.name
@@ -92,7 +90,7 @@ class Piece():
 
 class Patate(Piece):
     def __init__(self, color:str, hp:int, strenght:int, pos:tuple):
-        self.name = "Patate"
+        self.name = "Patate     "
         self.range = 1
         super().__init__(self.name,color,hp,strenght,self.range,pos)
 
@@ -162,10 +160,11 @@ class Patate(Piece):
 
 class Billy(Piece): 
     def __init__(self, color, hp, strenght, pos):
-        self.name = "Billy"
+        self.name = "Billy     "
         self.speed = 3
         super().__init__(self.name, color, hp, strenght, 1,pos)
         self.moveDir = {0: self.Up, 1: self.Down, 2: self.Right, 3: self.Left}
+        self.attackPos = (0,0)
 
     def Up(self, dist=None): # déplacement en Y vers le haut
         localMap = map.GetMap()
@@ -175,7 +174,8 @@ class Billy(Piece):
                 map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
                 self.pos = newPos
         else:
-            self.Attack(newPos)
+            self.attackPos = newPos
+            self.Attack()
 
     def Down(self, dist=None):# déplacement en Y vers le bas
         localMap = map.GetMap()
@@ -185,7 +185,8 @@ class Billy(Piece):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
         else:
-            self.Attack(newPos)
+            self.attackPos = newPos
+            self.Attack()
 
     def Right(self, dist=None):# déplacement en X
         localMap = map.GetMap()
@@ -195,7 +196,8 @@ class Billy(Piece):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
         else:
-            self.Attack(newPos)
+            self.attackPos = newPos
+            self.Attack()
 
     def Left(self, dist=None):# déplacement en X
         localMap = map.GetMap()
@@ -205,12 +207,13 @@ class Billy(Piece):
             map.SetObjectPosition(self.GetColorName(), newPos, self.pos)
             self.pos = newPos
         else:
-            self.Attack(newPos)
+            self.attackPos = newPos
+            self.Attack()
 
-    def Attack(self, attackPos:tuple):
+    def Attack(self):
         localMap = map.GetMap()
 
-        other = game.GetObjectByColorName(localMap[attackPos])
+        other = game.GetObjectByColorName(localMap[self.attackPos])
         if other.GetColor() != self.GetColor():
               other.Damage(self.strenght)
               if other.GetHp() <= 0:
@@ -221,7 +224,7 @@ class Billy(Piece):
 
 class Sponge(Piece):
     def __init__(self, color: str, hp: int, strenght: int, pos:tuple):
-        self.name = "Sponge"
+        self.name = "Sponge    "
         self.speed = 1
         self.range = 1
         super().__init__(self.name, color, hp, strenght, range, pos)
@@ -260,7 +263,7 @@ class Sponge(Piece):
 
     def Attack(self):
         localMap = map.GetMap()
-        attackPos= [(x,self.pos[1]) for x in range(-self.range,self.range+1)]
+        attackPos= [(x,self.pos[1]) for x in range(-1,2)]
         print(self.pos)
 
 
@@ -279,7 +282,7 @@ class Sponge(Piece):
 
 class DejaVu(Piece):
     def __init__(self, color: str, hp: int, strenght: int, pos: tuple):
-        self.name = "Deja-Vu"
+        self.name = "Deja-Vu   "
         self.range = 1
         super().__init__(self.name, color, hp, strenght, self.range, pos)
 
@@ -330,14 +333,12 @@ class DejaVu(Piece):
             attackPos.append((x,y))
         for x,y in zip(range(self.pos[0]-self.range, self.pos[0]+self.range+1), range(self.pos[1]+self.range, self.pos[1]-self.range-1, -1)):
             attackPos.append((x,y))
-
         for i in attackPos:
             if i in localMap.keys() and not map.IsEmpty(i) and not i==self.pos:
                 piece = localMap[i]
                 objPiece = game.GetObjectByColorName(piece)
                 if objPiece.GetColor() != self.color:
                     objPiece.Damage(self.strenght)
-                print("qui c qu'il attack", piece)
                 if objPiece.GetHp() <= 0:
                     print(f"{objPiece.GetColorName()} est éliminé")
                     objPiece.SetKill()
@@ -367,24 +368,24 @@ class Game():
             
 
     def update(self):
-        _epongeBlanche = self.dictPiece["WhiteSponge"]
-        _epongeNoire = self.dictPiece["BlackSponge"]
-        _patateBlanche = self.dictPiece["WhitePatate"]
-        _patateNoire = self.dictPiece["BlackPatate"]
-        _billyBlanc = self.dictPiece["WhiteBilly"]
-        _billyNoire = self.dictPiece["BlackBilly"]
-        _dejavuBlanc = self.dictPiece["WhiteDeja-Vu"]
-        _dejavuNoire = self.dictPiece["BlackDeja-Vu"]
+        _epongeBlanche = self.dictPiece["WhiteSponge   "]
+        _epongeNoire = self.dictPiece["BlackSponge    "]
+        _patateBlanche = self.dictPiece["WhitePatate     "]
+        _patateNoire = self.dictPiece["BlackPatate     "]
+        _billyBlanc = self.dictPiece["WhiteBilly     "]
+        _billyNoire = self.dictPiece["BlackBilly     "]
+        _dejavuBlanc = self.dictPiece["WhiteDeja-Vu    "]
+        _dejavuNoire = self.dictPiece["BlackDeja-Vu    "]
 
 map = Map()
 game = Game()
 
 epongeBlanche = Sponge("White", 10, 2, (1,0))
 epongeNoire = Sponge("Black", 10, 2, (2,3))
-patateBlanche = Patate("White", 10, 5, (0,0))
-patateNoire = Patate("Black", 10, 5, (3,3))
-billyBlanc = Billy("White", 5, 9, (3,0))
-billyNoire = Billy("Black", 5, 9, (0,3))
+patateBlanche = Patate("White", 10, 3, (0,0))
+patateNoire = Patate("Black", 10, 3, (3,3))
+billyBlanc = Billy("White", 5, 5, (3,0))
+billyNoire = Billy("Black", 5, 5, (0,3))
 dejaVuBlanc = DejaVu("White", 10, 3, (2,0))
 dejaVuNoire = DejaVu("Black", 10, 3, (1,3))
 
